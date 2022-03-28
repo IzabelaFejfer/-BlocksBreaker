@@ -33,7 +33,7 @@ public class StartFrame extends JFrame {
 	    this.setTitle("BlocksBreaker");
 	    this.setResizable(false); 
 	    JLabel label = new JLabel();
-		ImageIcon image = new ImageIcon("image.png");
+		ImageIcon image = new ImageIcon("images/image.png");
 		label.setIcon(image);
 	    label.setLayout(new GridLayout(4, 5,30, 20));
 	    label1=new JLabel("Wybierz poziom trudnoœci gry");
