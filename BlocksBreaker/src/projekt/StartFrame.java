@@ -19,15 +19,17 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.SwingConstants;
   
-public class StartFrame extends JFrame {
-	JButton buttonlatwy, buttontrudny;
+public class StartFrame extends JFrame 
+{
+	JButton buttonEasy, buttonHard;
 	JLabel label1;
 	int fontSize=32;
 	Font font=new Font("Helvetica", Font.BOLD, fontSize);
-	JMenuBar menubar;
+	JMenuBar menuBar;
 	JMenu menu;
 	JMenuItem item1, item2;
-	StartFrame(){
+	StartFrame()
+	{
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    this.setSize(900,600);
 	    this.setTitle("BlocksBreaker");
@@ -41,40 +43,38 @@ public class StartFrame extends JFrame {
 	    label1.setVerticalAlignment(SwingConstants.CENTER);
         label1.setHorizontalAlignment(SwingConstants.CENTER);
         Color color1 = new Color(245, 244, 151);
-	    buttonlatwy = new JButton("£atwy");
-	    buttonlatwy.setBackground(color1);
-	    ActionListener latwy = new ActionListener() {
+	    buttonEasy = new JButton("£atwy");
+	    buttonEasy.setBackground(color1);
+	    ActionListener latwy = new ActionListener() 
+	    {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-			  
+			public void actionPerformed(ActionEvent arg0) 
+			{
 				Main frame = new Main();
 		        frame.setVisible(true);;
 			}	
 		};
-		buttonlatwy.addActionListener(latwy);
-	    buttontrudny = new JButton("Trudny");
-	    buttontrudny.setBackground(color1);
+		buttonEasy.addActionListener(latwy);
+	    buttonHard = new JButton("Trudny");
+	    buttonHard.setBackground(color1);
 	    label.add(label1);
-	    label.add(buttonlatwy);
-	    label.add(buttontrudny);
+	    label.add(buttonEasy);
+	    label.add(buttonHard);
 		this.add(label);
 	    
-
 	    //MENUJÊZYK
-	    menubar = new JMenuBar();
+	    menuBar = new JMenuBar();
 	    menu = new JMenu("Jêzyk");
 	    item1 = new JMenuItem("polski");
 	    item2 = new JMenuItem("angielski");
 	    menu.add(item1);
 	    menu.add(item2);
-	    menubar.add(menu);
-	    this.setJMenuBar(menubar);
+	    menuBar.add(menu);
+	    this.setJMenuBar(menuBar);
 	}
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) 
+	{
 		StartFrame okno= new StartFrame();
 		okno.setVisible(true);
-        
 	}
-
 }
