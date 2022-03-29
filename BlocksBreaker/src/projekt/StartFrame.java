@@ -54,12 +54,12 @@ public class StartFrame extends JFrame {
 		buttonlatwy.addActionListener(latwy);
 	    buttontrudny = new JButton("Trudny");
 	    buttontrudny.setBackground(color1);
+	    buttontrudny.addActionListener(latwy);
 	    label.add(label1);
 	    label.add(buttonlatwy);
 	    label.add(buttontrudny);
 		this.add(label);
 	    
-
 	    //MENUJÊZYK
 	    menubar = new JMenuBar();
 	    menu = new JMenu("Jêzyk");
