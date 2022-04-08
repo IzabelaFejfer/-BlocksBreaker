@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
 public class StartFrame extends JFrame {
 	JButton buttonlatwy, buttontrudny;
 	JLabel label1;
-	int fontSize=32;
+	int fontSize=33;
 	Font font=new Font("Helvetica", Font.BOLD, fontSize);
 	JMenuBar menubar;
 	JMenu menu;
