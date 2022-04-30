@@ -38,9 +38,8 @@ public class Main extends JFrame {
 	    this.setResizable(false);
 	    
 	    //œrodkowy panel
-	    panel2= new JPanel();
-	    panel2.setBackground(Color.white);
-	    this.add(panel2, BorderLayout.CENTER);
+	    Easyframe easyframe =  new Easyframe();
+	    this.add(easyframe, BorderLayout.CENTER);
 	    
 	    //prawy panel
 	    panel1=new JPanel();
