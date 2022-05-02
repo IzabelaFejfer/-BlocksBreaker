@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
 
 
 
-public class Main extends JFrame {
+public class Gameeasy extends JFrame {
 	JPanel panel1, panel2;
 	JButton button1, button2, button3 ;
 	JMenuBar menubar;
@@ -30,7 +30,7 @@ public class Main extends JFrame {
 	int score=0;
 	int fontSize=20;
 	Font font=new Font("Helvetica", Font.BOLD, fontSize);
-	Main(){
+	Gameeasy(){
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    this.setSize(900,600);
 	    this.setTitle("BlocksBreaker");
@@ -38,8 +38,10 @@ public class Main extends JFrame {
 	    this.setResizable(false);
 	    
 	    //œrodkowy panel
+	    
 	    Easyframe easyframe =  new Easyframe();
 	    this.add(easyframe, BorderLayout.CENTER);
+	    
 	    
 	    //prawy panel
 	    panel1=new JPanel();

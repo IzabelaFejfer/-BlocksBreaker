@@ -1,15 +1,10 @@
 package projekt;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-
-import javax.print.DocFlavor.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,6 +22,7 @@ public class StartFrame extends JFrame {
 	JMenuBar menubar;
 	JMenu menu;
 	JMenuItem item1, item2;
+	
 	StartFrame(){
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    this.setSize(900,600);
@@ -46,15 +42,24 @@ public class StartFrame extends JFrame {
 	    ActionListener latwy = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-			  
-				Main frame = new Main();
+				
+				Gameeasy frame = new Gameeasy();
 		        frame.setVisible(true);;
 			}	
 		};
 		buttonlatwy.addActionListener(latwy);
+		
 	    buttontrudny = new JButton("Trudny");
 	    buttontrudny.setBackground(color1);
-	    buttontrudny.addActionListener(latwy);
+	    ActionListener trudny = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Gamehard frame = new Gamehard();
+		        frame.setVisible(true);;
+			}	
+		};
+	    buttontrudny.addActionListener(trudny);
 	    label.add(label1);
 	    label.add(buttonlatwy);
 	    label.add(buttontrudny);

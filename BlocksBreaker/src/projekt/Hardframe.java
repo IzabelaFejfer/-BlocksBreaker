@@ -12,19 +12,19 @@ import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Easyframe extends JPanel implements KeyListener, ActionListener{
+public class Hardframe extends JPanel implements KeyListener, ActionListener{
 
 	private boolean start = false;
 	Random r = new Random();
 	private int posX = 300;
 	private int ballX = r.nextInt(770);
 	private int ballY = 300;
-	private int ballvx = -1;
-	private int ballvy = 2;
+	private int ballvx = -3;
+	private int ballvy = 4;
 	private Timer timer;
 	private int delay = 8;
 	
-	public Easyframe() {
+	public Hardframe() {
 		
 		addKeyListener(this);
 		setFocusable(true);
