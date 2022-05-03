@@ -44,7 +44,7 @@ public class StartFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				Gameeasy frame = new Gameeasy();
-		        frame.setVisible(true);;
+		        frame.setVisible(true);
 			}	
 		};
 		buttonlatwy.addActionListener(latwy);

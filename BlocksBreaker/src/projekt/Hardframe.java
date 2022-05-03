@@ -2,6 +2,7 @@ package projekt;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,12 +21,15 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 	private int ballX = r.nextInt(770);
 	private int ballY = 300;
 	private int ballvx = -3;
-	private int ballvy = 4;
+	private int ballvy = 3;
 	private Timer timer;
 	private int delay = 8;
+	private Map mapa;
+	private int score=0;
 	
 	public Hardframe() {
 		
+		mapa = new Map(5,8);
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
@@ -44,25 +48,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 		//mapka
 		
 		
-		for(int j = 1; j<600; j+=93) {
-			g.setColor(Color.red);
-			g.fillRect(50+j, 50, 90, 45);
-			}
-		
-		for(int j = 1; j<500; j+=93) {
-			g.setColor(Color.red);
-			g.fillRect(95+j, 100, 90, 45);
-			}
-		
-		for(int j = 1; j<400; j+=93) {
-			g.setColor(Color.red);
-			g.fillRect(140+j, 150, 90, 45);
-			}
-		
-		for(int j = 1; j<300; j+=93) {
-			g.setColor(Color.red);
-			g.fillRect(185+j, 200, 90, 45);
-			}
+		mapa.draw((Graphics2D)g);
 		
 		//kontury
 		g.setColor(Color.BLACK);
@@ -72,11 +58,11 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 		
 		//pilka
 		g.setColor(Color.BLUE);
-		g.fillOval(ballX, ballY, 20, 20);
+		g.fillOval(ballX, ballY, 15, 15);
 		
 		//platforma
 		g.setColor(Color.RED);
-		g.fillRect(posX, 550, 100, 7);
+		g.fillRect(posX, 550, 70, 7);
 		
 		g.dispose();
 		
@@ -90,8 +76,8 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			if(posX >= 670) {
-			 posX = 670;
+			if(posX >= 700) {
+			 posX = 700;
 			} else {
 				moveRight();
 			}
@@ -136,11 +122,34 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 			if(ballX>750) {
 				ballvx = -ballvx;	
 			}
-			if(new Rectangle(ballX, ballY, 20, 20).intersects(new Rectangle(posX, 550, 100, 7))) {
+			if(new Rectangle(ballX, ballY, 15, 15).intersects(new Rectangle(posX, 550, 70, 7))) {
 				ballvy = -ballvy;
 			}
-			if(new Rectangle(ballX, ballY, 20, 20).intersects(new Rectangle(posX, 550, 100, 7))) {
-				
+			A: for(int i=0; i<mapa.map.length;i++) {
+				for(int j=0; j<mapa.map[0].length;j++ ) {
+					if(mapa.map[i][j]>0) {
+						int blockX = j*mapa.width+mapa.width;
+						int blockY = i*mapa.height+mapa.height;
+						int width = mapa.width;
+						int height = mapa.height; 
+						
+						Rectangle rect = new Rectangle(blockX, blockY, width, height);
+						Rectangle ballRect = new Rectangle (ballX, ballY, 15, 15);
+						Rectangle brickRect = rect;
+						
+						if(ballRect.intersects(brickRect)) {
+							mapa.setBrickValue(0,i,j);
+							score+=5;
+							
+						if(ballX+mapa.width<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
+							ballvx = -ballvx;
+						}else {
+							ballvy = -ballvy;
+						}
+							break A;
+						}
+					}
+				}
 			}
 		}
 		

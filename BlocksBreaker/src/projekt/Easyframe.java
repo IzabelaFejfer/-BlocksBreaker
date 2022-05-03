@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
+import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -23,9 +24,12 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 	private int ballvy = 2;
 	private Timer timer;
 	private int delay = 8;
+	private Map mapa;
+	private int score=0;
 	
 	public Easyframe() {
 		
+		mapa = new Map(4,8);
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
@@ -43,26 +47,7 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 		
 		//mapka
 		
-		
-		for(int j = 1; j<600; j+=93) {
-			g.setColor(Color.red);
-			g.fillRect(50+j, 50, 90, 45);
-			}
-		
-		for(int j = 1; j<500; j+=93) {
-			g.setColor(Color.red);
-			g.fillRect(95+j, 100, 90, 45);
-			}
-		
-		for(int j = 1; j<400; j+=93) {
-			g.setColor(Color.red);
-			g.fillRect(140+j, 150, 90, 45);
-			}
-		
-		for(int j = 1; j<300; j+=93) {
-			g.setColor(Color.red);
-			g.fillRect(185+j, 200, 90, 45);
-			}
+		mapa.draw((Graphics2D)g);
 		
 		//kontury
 		g.setColor(Color.BLACK);
@@ -139,8 +124,32 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 			if(new Rectangle(ballX, ballY, 20, 20).intersects(new Rectangle(posX, 550, 100, 7))) {
 				ballvy = -ballvy;
 			}
-			if(new Rectangle(ballX, ballY, 20, 20).intersects(new Rectangle(posX, 550, 100, 7))) {
-				
+			
+			A: for(int i=0; i<mapa.map.length;i++) {
+				for(int j=0; j<mapa.map[0].length;j++ ) {
+					if(mapa.map[i][j]>0) {
+						int blockX = j*mapa.width+mapa.width;
+						int blockY = i*mapa.height+mapa.height;
+						int width = mapa.width;
+						int height = mapa.height; 
+						
+						Rectangle rect = new Rectangle(blockX, blockY, width, height);
+						Rectangle ballRect = new Rectangle (ballX, ballY, 20, 20);
+						Rectangle brickRect = rect;
+						
+						if(ballRect.intersects(brickRect)) {
+							mapa.setBrickValue(0,i,j);
+							score+=5;
+							
+						if(ballX+mapa.width<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
+							ballvx = -ballvx;
+						}else {
+							ballvy = -ballvy;
+						}
+							break A;
+						}
+					}
+				}
 			}
 		}
 		

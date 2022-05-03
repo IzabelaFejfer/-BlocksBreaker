@@ -27,7 +27,7 @@ public class Gamehard extends JFrame {
 	JRadioButton radiobutton1, radiobutton2;
 	ButtonGroup grupa;
 	JLabel scorelabel, sclabel;
-	int score=0;
+	//int score=0;
 	int fontSize=20;
 	Font font=new Font("Helvetica", Font.BOLD, fontSize);
 	Gamehard(){
@@ -53,7 +53,7 @@ public class Gamehard extends JFrame {
 	    scorelabel.setFont(font);
 	    scorelabel.setVerticalAlignment(SwingConstants.CENTER);
 	    scorelabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    sclabel=new JLabel(""+score);
+	    sclabel=new JLabel("");
 	    sclabel.setFont(font);
 	    sclabel.setVerticalAlignment(SwingConstants.CENTER);
 	    sclabel.setHorizontalAlignment(SwingConstants.CENTER);
