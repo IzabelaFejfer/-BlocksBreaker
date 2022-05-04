@@ -18,10 +18,10 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 	private boolean start = false;
 	Random r = new Random();
 	private int posX = 300;
-	private int ballX = r.nextInt(770);
+	private int ballX = r.nextInt(768);
 	private int ballY = 300;
 	private int ballvx = -3;
-	private int ballvy = 3;
+	private int ballvy = 4;
 	private Timer timer;
 	private int delay = 8;
 	private Map mapa;
@@ -122,7 +122,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 			if(ballX>750) {
 				ballvx = -ballvx;	
 			}
-			if(new Rectangle(ballX, ballY, 15, 15).intersects(new Rectangle(posX, 550, 70, 7))) {
+			if(new Rectangle(ballX, ballY, 15, 15).intersects(new Rectangle(posX-3, 550, 76, 7))) {
 				ballvy = -ballvy;
 			}
 			A: for(int i=0; i<mapa.map.length;i++) {
@@ -141,7 +141,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 							mapa.setBrickValue(0,i,j);
 							score+=5;
 							
-						if(ballX+mapa.width<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
+						if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
 							ballvx = -ballvx;
 						}else {
 							ballvy = -ballvy;

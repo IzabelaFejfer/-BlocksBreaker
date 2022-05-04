@@ -18,10 +18,10 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 	private boolean start = false;
 	Random r = new Random();
 	private int posX = 300;
-	private int ballX = r.nextInt(770);
+	private int ballX = r.nextInt(768);
 	private int ballY = 300;
-	private int ballvx = -1;
-	private int ballvy = 2;
+	private int ballvx = -2;
+	private int ballvy = 3;
 	private Timer timer;
 	private int delay = 8;
 	private Map mapa;
@@ -121,7 +121,7 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 			if(ballX>750) {
 				ballvx = -ballvx;	
 			}
-			if(new Rectangle(ballX, ballY, 20, 20).intersects(new Rectangle(posX, 550, 100, 7))) {
+			if(new Rectangle(ballX, ballY, 20, 20).intersects(new Rectangle(posX-3, 550, 106, 7))) {
 				ballvy = -ballvy;
 			}
 			
@@ -141,7 +141,7 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 							mapa.setBrickValue(0,i,j);
 							score+=5;
 							
-						if(ballX+mapa.width<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
+						if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
 							ballvx = -ballvx;
 						}else {
 							ballvy = -ballvy;
