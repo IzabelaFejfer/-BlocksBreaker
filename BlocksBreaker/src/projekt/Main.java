@@ -37,7 +37,7 @@ public class Main extends JFrame
 	    this.setLayout(new BorderLayout());
 	    this.setResizable(false);
 	    
-	    //�rodkowy panel
+	    //srodkowy panel
 	    panel2= new JPanel();
 	    panel2.setBackground(Color.white);
 	    this.add(panel2, BorderLayout.CENTER);
@@ -62,7 +62,7 @@ public class Main extends JFrame
 	    radioButton2.setBackground(color1);
 	    button1 = new JButton("Nowa Gra");
 	    button1.setBackground(color2);
-	    button2 = new JButton("Zatrzymaj gr�");
+	    button2 = new JButton("Zatrzymaj gre");
 	    button2.setBackground(color2);
 	    button3 = new JButton("Zapisz punkty");
 	    button3.setBackground(color2);
@@ -77,6 +77,6 @@ public class Main extends JFrame
 	    panel1.add(button1);
 	    panel1.add(button2);
 	    panel1.add(button3);
-	    this.add(panel1, BorderLayout.LINE_END);		//menu po prawej stronie
+	    this.add(panel1, BorderLayout.LINE_END);		//menu gracza po prawej stronie
 	}
 }

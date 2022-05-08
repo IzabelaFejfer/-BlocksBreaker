@@ -33,14 +33,14 @@ public class StartFrame extends JFrame
 		ImageIcon image = new ImageIcon("images/image.png");
 		label.setIcon(image);
 	    label.setLayout(new GridLayout(4, 5,30, 20));
-	    label1=new JLabel("Wybierz poziom trudno�ci gry");
+	    label1=new JLabel("Wybierz poziom trudnosci gry");
 	    label1.setFont(font);
 	    label1.setVerticalAlignment(SwingConstants.CENTER);
         label1.setHorizontalAlignment(SwingConstants.CENTER);
         Color color1 = new Color(245, 244, 151);
-	    buttonEasy = new JButton("�atwy");
+	    buttonEasy = new JButton("Latwy");
 	    buttonEasy.setBackground(color1);
-	    ActionListener latwy = new ActionListener() 
+	    ActionListener difficultyLevel = new ActionListener() 		//ActionListener otwierajacy nowe okno z gra
 	    {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
@@ -49,17 +49,18 @@ public class StartFrame extends JFrame
 		        frame.setVisible(true);;
 			}	
 		};
-		buttonEasy.addActionListener(latwy);
+		buttonEasy.addActionListener(difficultyLevel);
 	    buttonHard = new JButton("Trudny");
+	    buttonHard.addActionListener(difficultyLevel);
 	    buttonHard.setBackground(color1);
 	    label.add(label1);
 	    label.add(buttonEasy);
 	    label.add(buttonHard);
 		this.add(label);
 	    
-	    //MENUJ�ZYK
+	    //MENU
 	    menuBar = new JMenuBar();
-	    menu = new JMenu("J�zyk");
+	    menu = new JMenu("Jezyk");
 	    item1 = new JMenuItem("polski");
 	    item2 = new JMenuItem("angielski");
 	    menu.add(item1);
@@ -69,7 +70,7 @@ public class StartFrame extends JFrame
 	}
 	public static void main(String[] args) 
 	{
-		StartFrame okno= new StartFrame();
-		okno.setVisible(true);
+		StartFrame frame = new StartFrame();
+		frame.setVisible(true);
 	}
 }
