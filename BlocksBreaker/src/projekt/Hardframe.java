@@ -14,15 +14,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import properties.BallProperties;
+
 public class Hardframe extends JPanel implements KeyListener, ActionListener{
 
 	private boolean start = false;
 	Random r = new Random();
 	private int posX = 300;
-	private int ballX = r.nextInt(760)+5;
-	private int ballY = 300;
-	private int ballvx = -3;
-	private int ballvy = 4;
+	private Ball ball = new Ball(
+			BallProperties.getBallX(), BallProperties.getBallY(),
+			BallProperties.getBallvxHard(), BallProperties.getBallvyHard(),
+			BallProperties.getRadiousHard(), BallProperties.getColor_tryb_jasny());
+
 	private Timer timer;
 	private int delay = 5;
 	private Map mapa;
@@ -57,9 +60,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 		g.fillRect(770, 0, 3, 600);
 		
 		//pilka
-		
-		g.setColor(Color.BLUE);
-		g.fillOval(ballX, ballY, 15, 15);
+		ball.paint(g);
 		
 		//platforma
 		
@@ -112,19 +113,11 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		timer.start();
 		if(start) {
-			ballX += ballvx;
-			ballY += ballvy;
-			if(ballX<0) {
-				ballvx = -ballvx;	
-			}
-			if(ballY<0) {
-				ballvy = -ballvy;	
-			}
-			if(ballX>750) {
-				ballvx = -ballvx;	
-			}
-			if(new Rectangle(ballX, ballY, 15, 15).intersects(new Rectangle(posX-3, 550, 76, 7))) {
-				ballvy = -ballvy;
+			ball.moveX();
+			ball.moveY();
+			
+			if(ball.intersects(new Rectangle(posX-3, 550, 76, 7))) {
+				ball.reverseVelY();
 			}
 			A: for(int i=0; i<mapa.map.length;i++) {
 				for(int j=0; j<mapa.map[0].length;j++ ) {
@@ -135,18 +128,17 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 						int height = mapa.height; 
 						
 						Rectangle rect = new Rectangle(blockX, blockY, width, height);
-						Rectangle ballRect = new Rectangle (ballX, ballY, 15, 15);
 						Rectangle brickRect = rect;
 						
-						if(ballRect.intersects(brickRect)) {
+						if(ball.intersects(brickRect)) {
 							mapa.setBrickValue(0,i,j);
 							score+=5;
 							my_scorelabel.setText(""+score);
 							
-						if(ballX<=brickRect.x||ballX>= brickRect.x+brickRect.width-2) {
-							ballvx = -ballvx;
+						if(ball.getPosX()+1<=brickRect.x||ball.getPosX()+1>= brickRect.x+brickRect.width) {
+							ball.reverseVelX();
 						}else {
-							ballvy = -ballvy;
+							ball.reverseVelY();
 						}
 							break A;
 						}

@@ -20,10 +20,11 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 
 	private boolean start = false;
 	private int posX = 300;
-	private int ballX = BallProperties.getBallX();
-	private int ballY = BallProperties.getBallY();
-	private int ballvx = BallProperties.getBallvx();
-	private int ballvy = BallProperties.getBallvy();
+	private Ball ball = new Ball(
+			BallProperties.getBallX(), BallProperties.getBallY(),
+			BallProperties.getBallvxEasy(), BallProperties.getBallvyEasy(),
+			BallProperties.getRadiousEasy(), BallProperties.getColor_tryb_jasny());
+
 	private Timer timer;
 	private int delay = 5;
 	private Map mapa;
@@ -58,9 +59,7 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 		g.fillRect(770, 0, 3, 600);
 		
 		//pilka
-		
-		g.setColor(BallProperties.getColor_tryb_jasny());
-		g.fillOval(ballX, ballY, BallProperties.getRadious(), BallProperties.getRadious());
+		ball.paint(g);		
 
 		//platforma
 		
@@ -113,19 +112,11 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		timer.start();
 		if(start) {
-			ballX += ballvx;
-			ballY += ballvy;
-			if(ballX<0) {
-				ballvx = -ballvx;	
-			}
-			if(ballY<0) {
-				ballvy = -ballvy;	
-			}
-			if(ballX>750) {
-				ballvx = -ballvx;	
-			}
-			if(new Rectangle(ballX, ballY, 20, 20).intersects(new Rectangle(posX-3, 550, 106, 7))) {
-				ballvy = -ballvy;
+			ball.moveX();
+			ball.moveY();
+
+			if(ball.intersects(new Rectangle(posX-3, 550, 106, 7))) {
+				ball.reverseVelY();
 			}
 			
 			A: for(int i=0; i<mapa.map.length;i++) {
@@ -137,18 +128,17 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 						int height = mapa.height; 
 						
 						Rectangle rect = new Rectangle(blockX, blockY, width, height);
-						Rectangle ballRect = new Rectangle (ballX, ballY, 20, 20);
 						Rectangle brickRect = rect;
-						
-						if(ballRect.intersects(brickRect)) {
+
+						if(ball.intersects(brickRect)) {
 							mapa.setBrickValue(0,i,j);
 							score+=5;
 							my_scorelabel.setText(""+score);
 
-						if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
-							ballvx = -ballvx;
+						if(ball.getPosX()+1<=brickRect.x||ball.getPosX()+1>= brickRect.x+brickRect.width) {
+							ball.reverseVelX();
 						}else {
-							ballvy = -ballvy;
+							ball.reverseVelY();
 						}
 							break A;
 						}

@@ -10,9 +10,12 @@ public final class BallProperties {
 	private static Color color_tryb_ciemny = Color.ORANGE;
 	private static int ballX = r.nextInt(760)+5;
 	private static int ballY = 300;
-	private static int ballvx = 2;
-	private static int ballvy = 3;
-	private static int radious= 20;
+	private static int ballvxEasy = 2;
+	private static int ballvyEasy = 3;
+	private static int radiousEasy= 20;
+	private static int ballvxHard = 3;
+	private static int ballvyHard = 4;
+	private static int radiousHard = 15;
 
 	public static Color getColor_tryb_jasny() {
 		return color_tryb_jasny;
@@ -26,13 +29,22 @@ public final class BallProperties {
 	public static int getBallY() {
 		return ballY;
 	}
-	public static int getBallvx() {
-		return ballvx;
+	public static int getBallvxEasy() {
+		return ballvxEasy;
 	}
-	public static int getBallvy() {
-		return ballvy;
+	public static int getBallvyEasy() {
+		return ballvyEasy;
 	}
-	public static int getRadious() {
-		return radious;
+	public static int getRadiousEasy() {
+		return radiousEasy;
+	}
+	public static int getBallvxHard() {
+		return ballvxHard;
+	}
+	public static int getBallvyHard() {
+		return ballvyHard;
+	}
+	public static int getRadiousHard() {
+		return radiousHard;
 	}
 }
