@@ -15,17 +15,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import properties.BallProperties;
 public class Easyframe extends JPanel implements KeyListener, ActionListener{
 
 	private boolean start = false;
-	Random r = new Random();
 	private int posX = 300;
-	private int ballX = r.nextInt(760)+5;
-	private int ballY = 300;
-	private int ballvx = -2;
-	private int ballvy = 3;
+	private int ballX = BallProperties.getBallX();
+	private int ballY = BallProperties.getBallY();
+	private int ballvx = BallProperties.getBallvx();
+	private int ballvy = BallProperties.getBallvy();
 	private Timer timer;
-	private int delay = 8;
+	private int delay = 5;
 	private Map mapa;
 	private int score=0;
 	private JLabel my_scorelabel;
@@ -35,7 +35,6 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 		mapa = new Map(4,8);
 		addKeyListener(this);
 		setFocusable(true);
-		setFocusTraversalKeysEnabled(false);
 		timer = new Timer(delay, this);
 		timer.start();
 	}
@@ -60,9 +59,9 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 		
 		//pilka
 		
-		g.setColor(Color.BLUE);
-		g.fillOval(ballX, ballY, 20, 20);
-		
+		g.setColor(BallProperties.getColor_tryb_jasny());
+		g.fillOval(ballX, ballY, BallProperties.getRadious(), BallProperties.getRadious());
+
 		//platforma
 		
 		g.setColor(Color.RED);

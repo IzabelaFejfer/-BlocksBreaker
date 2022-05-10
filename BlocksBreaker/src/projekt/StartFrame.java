@@ -32,12 +32,12 @@ public class StartFrame extends JFrame {
 		ImageIcon image = new ImageIcon("images/image.png");
 		label.setIcon(image);
 	    label.setLayout(new GridLayout(4, 5,30, 20));
-	    label1=new JLabel("Wybierz poziom trudnoœci gry");
+	    label1=new JLabel("Wybierz poziom trudnosci gry");
 	    label1.setFont(font);
 	    label1.setVerticalAlignment(SwingConstants.CENTER);
         label1.setHorizontalAlignment(SwingConstants.CENTER);
         Color color1 = new Color(245, 244, 151);
-	    buttonlatwy = new JButton("£atwy");
+	    buttonlatwy = new JButton("Latwy");
 	    buttonlatwy.setBackground(color1);
 	    ActionListener latwy = new ActionListener() {
 			@Override
@@ -67,7 +67,7 @@ public class StartFrame extends JFrame {
 	    
 	    //MENUJÊZYK
 	    menubar = new JMenuBar();
-	    menu = new JMenu("Jêzyk");
+	    menu = new JMenu("Jezyk");
 	    item1 = new JMenuItem("polski");
 	    item2 = new JMenuItem("angielski");
 	    menu.add(item1);

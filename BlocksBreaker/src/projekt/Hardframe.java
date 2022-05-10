@@ -19,22 +19,21 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 	private boolean start = false;
 	Random r = new Random();
 	private int posX = 300;
-	private int ballX = r.nextInt(768);
+	private int ballX = r.nextInt(760)+5;
 	private int ballY = 300;
 	private int ballvx = -3;
 	private int ballvy = 4;
 	private Timer timer;
-	private int delay = 8;
+	private int delay = 5;
 	private Map mapa;
 	private int score=0;
 	private JLabel my_scorelabel;
 
 	public Hardframe(JLabel scorelabel) {
 		my_scorelabel=scorelabel;
-		mapa = new Map(5,8);
+		mapa = new Map(6,9);
 		addKeyListener(this);
 		setFocusable(true);
-		setFocusTraversalKeysEnabled(false);
 		timer = new Timer(delay, this);
 		timer.start();
 	}
@@ -144,7 +143,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 							score+=5;
 							my_scorelabel.setText(""+score);
 							
-						if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
+						if(ballX<=brickRect.x||ballX>= brickRect.x+brickRect.width-2) {
 							ballvx = -ballvx;
 						}else {
 							ballvy = -ballvy;

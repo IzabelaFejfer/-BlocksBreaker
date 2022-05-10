@@ -59,7 +59,7 @@ public class Gameeasy extends JFrame {
 	    radiobutton2.setBackground(color1);
 	    button1 = new JButton("Nowa Gra");
 	    button1.setBackground(color2);
-	    button2 = new JButton("Zatrzymaj grê");
+	    button2 = new JButton("Zatrzymaj gre");
 	    button2.setBackground(color2);
 	    button3 = new JButton("Zapisz punkty");
 	    button3.setBackground(color2);
