@@ -10,6 +10,8 @@ import java.awt.event.KeyListener;
 import java.util.Random;
 import java.awt.Graphics2D;
 
+import javax.sound.midi.SysexMessage;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -18,7 +20,7 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 	private boolean start = false;
 	Random r = new Random();
 	private int posX = 300;
-	private int ballX = r.nextInt(768);
+	private int ballX = r.nextInt(760)+5;
 	private int ballY = 300;
 	private int ballvx = -2;
 	private int ballvy = 3;
@@ -26,22 +28,22 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 	private int delay = 8;
 	private Map mapa;
 	private int score=0;
-	
-	public Easyframe() {
-		
+	private JLabel my_scorelabel;
+
+	public Easyframe(JLabel scorelabel) {
+		my_scorelabel=scorelabel;
 		mapa = new Map(4,8);
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
 		timer = new Timer(delay, this);
 		timer.start();
-		
 	}
 	
-
-	
 	public void paint (Graphics g) {
+		
 		//t³o
+		
 		g.setColor(Color.WHITE);
 		g.fillRect(1, 1, 800, 600);
 		
@@ -50,26 +52,28 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 		mapa.draw((Graphics2D)g);
 		
 		//kontury
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 3, 600);
 		g.fillRect(0, 0, 770, 3);
 		g.fillRect(770, 0, 3, 600);
 		
 		//pilka
+		
 		g.setColor(Color.BLUE);
 		g.fillOval(ballX, ballY, 20, 20);
 		
 		//platforma
+		
 		g.setColor(Color.RED);
 		g.fillRect(posX, 550, 100, 7);
 		
 		g.dispose();
-		
 	}
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -140,7 +144,8 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 						if(ballRect.intersects(brickRect)) {
 							mapa.setBrickValue(0,i,j);
 							score+=5;
-							
+							my_scorelabel.setText(""+score);
+
 						if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
 							ballvx = -ballvx;
 						}else {
@@ -152,9 +157,6 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 				}
 			}
 		}
-		
 		repaint();
-		
 	}
-
 }

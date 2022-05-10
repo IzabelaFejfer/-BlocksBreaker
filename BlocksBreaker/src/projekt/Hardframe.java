@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -26,51 +27,53 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 	private int delay = 8;
 	private Map mapa;
 	private int score=0;
-	
-	public Hardframe() {
-		
+	private JLabel my_scorelabel;
+
+	public Hardframe(JLabel scorelabel) {
+		my_scorelabel=scorelabel;
 		mapa = new Map(5,8);
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
 		timer = new Timer(delay, this);
 		timer.start();
-		
 	}
 	
-
-	
 	public void paint (Graphics g) {
+		
 		//t³o
+		
 		g.setColor(Color.WHITE);
 		g.fillRect(1, 1, 800, 600);
 		
 		//mapka
 		
-		
 		mapa.draw((Graphics2D)g);
 		
 		//kontury
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 3, 600);
 		g.fillRect(0, 0, 770, 3);
 		g.fillRect(770, 0, 3, 600);
 		
 		//pilka
+		
 		g.setColor(Color.BLUE);
 		g.fillOval(ballX, ballY, 15, 15);
 		
 		//platforma
+		
 		g.setColor(Color.RED);
 		g.fillRect(posX, 550, 70, 7);
 		
 		g.dispose();
 		
 	}
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -104,7 +107,6 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -140,6 +142,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 						if(ballRect.intersects(brickRect)) {
 							mapa.setBrickValue(0,i,j);
 							score+=5;
+							my_scorelabel.setText(""+score);
 							
 						if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
 							ballvx = -ballvx;
@@ -152,9 +155,6 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 				}
 			}
 		}
-		
 		repaint();
-		
 	}
-
 }

@@ -16,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
-
-
 public class Gamehard extends JFrame {
 	JPanel panel1, panel2;
 	JButton button1, button2, button3 ;
@@ -27,9 +25,9 @@ public class Gamehard extends JFrame {
 	JRadioButton radiobutton1, radiobutton2;
 	ButtonGroup grupa;
 	JLabel scorelabel, sclabel;
-	//int score=0;
 	int fontSize=20;
 	Font font=new Font("Helvetica", Font.BOLD, fontSize);
+	
 	Gamehard(){
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    this.setSize(900,600);
@@ -37,13 +35,9 @@ public class Gamehard extends JFrame {
 	    this.setLayout(new BorderLayout());
 	    this.setResizable(false);
 	    
-	    //œrodkowy panel
-	    
-	    Hardframe hardframe =  new Hardframe();
-	    this.add(hardframe, BorderLayout.CENTER);
-	    
 	    
 	    //prawy panel
+	    
 	    panel1=new JPanel();
 	    panel1.setLayout(new GridLayout(8,1, 15, 15));
 	    Color color1 = new Color(176, 224, 230);
@@ -79,6 +73,10 @@ public class Gamehard extends JFrame {
 	    panel1.add(button2);
 	    panel1.add(button3);
 	    this.add(panel1, BorderLayout.LINE_END);
-	}
 
+	    //œrodkowy panel
+	    
+	    Hardframe hardframe =  new Hardframe(sclabel);
+	    this.add(hardframe, BorderLayout.CENTER);
+	}
 }
