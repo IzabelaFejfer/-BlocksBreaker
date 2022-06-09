@@ -1,24 +1,39 @@
 package projekt;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
+
 
 public class Hardframe extends JPanel implements KeyListener, ActionListener{
 
 	private boolean start = false;
 	Random r = new Random();
 	private int posX = 300;
-	private int ballX = r.nextInt(768);
+	private int ballX = r.nextInt(760)+5;
 	private int ballY = 300;
 	private int ballvx = -3;
 	private int ballvy = 4;
@@ -26,10 +41,17 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 	private int delay = 8;
 	private Map mapa;
 	private int score=0;
-	
+	int a=5;
+	int b=8;
+	String audioFilePath = "";
+	Clip audioClip = null;
+	File audioFile = null;
+	AudioInputStream audioStream = null;
+	 boolean playCompleted = false;
+	 
 	public Hardframe() {
 		
-		mapa = new Map(5,8);
+		mapa = new Map(a,b);
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
@@ -41,7 +63,8 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 
 	
 	public void paint (Graphics g) {
-		//t³o
+		
+		//tï¿½o
 		g.setColor(Color.WHITE);
 		g.fillRect(1, 1, 800, 600);
 		
@@ -113,6 +136,35 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 		if(start) {
 			ballX += ballvx;
 			ballY += ballvy;
+			
+			
+			if(ballY>this.getHeight()) {
+				Font font=new Font("Helvetica", Font.BOLD, 20);
+				JDialog okienko = new JDialog();
+				JPanel panel = new JPanel();
+        		okienko.setSize(300,200);
+        		panel.setLayout(new GridLayout(3,1));
+        		JLabel label2 = new JLabel("Przegra³eœ!");
+        		JLabel label3 = new JLabel("Zdobyte punkty: "+score);
+        		label2.setFont(font);
+        		label3.setFont(font);
+        		label2.setVerticalAlignment(SwingConstants.CENTER);
+                label2.setHorizontalAlignment(SwingConstants.CENTER);
+                label3.setVerticalAlignment(SwingConstants.CENTER);
+                label3.setHorizontalAlignment(SwingConstants.CENTER);
+                Color color1 = new Color(176, 224, 230);
+                panel.setBackground(color1);				                
+        		panel.add(label2);
+        		panel.add(label3);
+        		okienko.add(panel);
+        		okienko.setVisible(true);
+        		ballX = r.nextInt(768);
+        		ballY = 300;
+        		ballvx=0;
+        		ballvy=0;
+        		play("./images/c.wav");
+			}
+			
 			if(ballX<0) {
 				ballvx = -ballvx;	
 			}
@@ -140,8 +192,34 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 						if(ballRect.intersects(brickRect)) {
 							mapa.setBrickValue(0,i,j);
 							score+=5;
+							play("./images/a.wav");
+							if(score==5*a*b)
+							{
+								Font font=new Font("Helvetica", Font.BOLD, 20);
+								JDialog okienko = new JDialog();
+								JPanel panel = new JPanel();
+				        		okienko.setSize(300,200);
+				        		panel.setLayout(new GridLayout(3,1));
+				        		JLabel label2 = new JLabel("Wygraï¿½eï¿½!");
+				        		JLabel label3 = new JLabel("Zdobyte punkty: "+score);
+				        		label2.setFont(font);
+				        		label3.setFont(font);
+				        		label2.setVerticalAlignment(SwingConstants.CENTER);
+				                label2.setHorizontalAlignment(SwingConstants.CENTER);
+				                label3.setVerticalAlignment(SwingConstants.CENTER);
+				                label3.setHorizontalAlignment(SwingConstants.CENTER);
+				                Color color1 = new Color(176, 224, 230);
+				                panel.setBackground(color1);				                
+				        		panel.add(label2);
+				        		panel.add(label3);
+				        		okienko.add(panel);
+				        		okienko.setVisible(true);
+				        		ballvx=0;
+				        		ballvy=0;
+				        		play("./images/b.wav");
+							}
 							
-						if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
+						if(ballX+1<=brickRect.x||ballX>= brickRect.x+brickRect.width-2) {
 							ballvx = -ballvx;
 						}else {
 							ballvy = -ballvy;
@@ -154,7 +232,51 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 		}
 		
 		repaint();
-		
+	}
+		void play(String audioFilePath) {
+	    	
+	        try {
+	            audioFile = new File(audioFilePath);
+	            audioStream = AudioSystem.getAudioInputStream(audioFile);
+	            AudioFormat format = audioStream.getFormat();
+	            DataLine.Info info = new DataLine.Info(Clip.class, format);
+	            Clip audioClip = (Clip) AudioSystem.getLine(info);
+	            audioClip.open(audioStream);
+	          
+	            Thread thread = new Thread(new Runnable() {
+
+	                public void run() {
+	                	 audioClip.start();
+						while(playCompleted){          	
+	     	            	audioClip.close();    	            	
+	     	            }
+	     	            
+
+	     	            try {
+	 						audioStream.close();
+	 					} catch (IOException e) {
+	 				            e.printStackTrace();
+	 					}
+	                            
+	                }
+	                        
+	            });
+	            thread.start();
+	            
+	            
+
+	        } catch (UnsupportedAudioFileException ex) {
+	            System.out.println("The specified audio file is not supported.");
+	            ex.printStackTrace();
+	        } catch (LineUnavailableException ex) {
+	            System.out.println("Audio line for playing back is unavailable.");
+	            ex.printStackTrace();
+	        } catch (IOException e1) {
+	            System.out.println("Error playing the audio file.");
+				e1.printStackTrace();
+			} 
+	         
+	    
 	}
 
 }

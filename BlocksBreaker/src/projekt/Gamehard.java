@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -27,6 +29,7 @@ public class Gamehard extends JFrame {
 	JRadioButton radiobutton1, radiobutton2;
 	ButtonGroup grupa;
 	JLabel scorelabel, sclabel;
+	public int c;
 	//int score=0;
 	int fontSize=20;
 	Font font=new Font("Helvetica", Font.BOLD, fontSize);
@@ -80,5 +83,6 @@ public class Gamehard extends JFrame {
 	    panel1.add(button3);
 	    this.add(panel1, BorderLayout.LINE_END);
 	}
+
 
 }
