@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.WindowConstants;
 
 
 public class Hardframe extends JPanel implements KeyListener, ActionListener{
@@ -38,7 +39,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 	private int ballvx = -3;
 	private int ballvy = 4;
 	private Timer timer;
-	private int delay = 8;
+	private int delay = 3;
 	private Map mapa;
 	private int score=0;
 	int a=5;
@@ -48,28 +49,29 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 	File audioFile = null;
 	AudioInputStream audioStream = null;
 	 boolean playCompleted = false;
-	 
-	public Hardframe() {
+	 int d;
+	public Hardframe(int c) {
 		
-		mapa = new Map(a,b);
+		mapa = new Map(a,b,c);
 		addKeyListener(this);
 		setFocusable(true);
-		setFocusTraversalKeysEnabled(false);
+		//setFocusTraversalKeysEnabled(false);
 		timer = new Timer(delay, this);
 		timer.start();
+		d=c;
 		
 	}
 	
 
 	
 	public void paint (Graphics g) {
-		
+		if(d==0)
+		{
 		//t�o
 		g.setColor(Color.WHITE);
 		g.fillRect(1, 1, 800, 600);
 		
 		//mapka
-		
 		
 		mapa.draw((Graphics2D)g);
 		
@@ -87,7 +89,36 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 		g.setColor(Color.RED);
 		g.fillRect(posX, 550, 70, 7);
 		
-		g.dispose();
+		//g.dispose();
+		}
+		else if(d==1)
+		{
+		//t�o
+		g.setColor(Color.BLACK);
+		g.fillRect(1, 1, 800, 600);
+		
+		//mapka
+		
+		
+		mapa.draw((Graphics2D)g);
+		
+		//kontury
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 3, 600);
+		g.fillRect(0, 0, 770, 3);
+		g.fillRect(770, 0, 3, 600);
+		
+		//pilka
+		g.setColor(Color.WHITE);
+		g.fillOval(ballX, ballY, 15, 15);
+		
+		//platforma
+		g.setColor(Color.WHITE);
+		g.fillRect(posX, 550, 70, 7);
+		
+		//g.dispose();
+		}
+		
 		
 	}
 	@Override
@@ -112,15 +143,18 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 					moveLeft();
 				}
 		}
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			start = true;
+		}
 	}
 	
 	public void moveRight() {
-		start = true;
+		//start = true;
 		posX += 20;
 	}
 	
 	public void moveLeft() {
-		start = true;
+		//start = true;
 		posX -= 20;
 	}
 	
@@ -214,12 +248,13 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 				        		panel.add(label3);
 				        		okienko.add(panel);
 				        		okienko.setVisible(true);
+				        		//okienko.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 				        		ballvx=0;
 				        		ballvy=0;
 				        		play("./images/b.wav");
 							}
 							
-						if(ballX+1<=brickRect.x||ballX>= brickRect.x+brickRect.width-2) {
+						if(ballX+1<=brickRect.x||ballX>= brickRect.x+brickRect.width-3) {
 							ballvx = -ballvx;
 						}else {
 							ballvy = -ballvy;

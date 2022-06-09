@@ -39,7 +39,7 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 	private int ballvx = -2;
 	private int ballvy = 3;
 	private Timer timer;
-	private int delay = 8;
+	private int delay = 0;
 	private Map mapa;
 	private int score=0;
 	private int a=4;
@@ -50,9 +50,9 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 	AudioInputStream audioStream = null;	
     boolean playCompleted = false;
     
-	public Easyframe() {
+	public Easyframe(int c) {
 		
-		mapa = new Map(a,b);
+		mapa = new Map(a,b,c);
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
@@ -86,7 +86,7 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 		g.setColor(Color.RED);
 		g.fillRect(posX, 550, 100, 7);
 		
-		g.dispose();
+		//g.dispose();
 		
 	}
 	@Override
@@ -111,15 +111,16 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 					moveLeft();
 				}
 		}
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			start = true;
+		}
 	}
 	
 	public void moveRight() {
-		start = true;
 		posX += 20;
 	}
 	
 	public void moveLeft() {
-		start = true;
 		posX -= 20;
 	}
 	

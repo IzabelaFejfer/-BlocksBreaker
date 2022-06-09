@@ -24,7 +24,7 @@ public class StartFrame extends JFrame {
 	JMenuItem item1, item2;
 	
 	StartFrame(){
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setSize(900,600);
 	    this.setTitle("BlocksBreaker");
 	    this.setResizable(false); 

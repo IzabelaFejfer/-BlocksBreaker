@@ -29,6 +29,7 @@ public class Gameeasy extends JFrame {
 	JLabel scorelabel, sclabel;
 	int score=0;
 	int fontSize=20;
+	int c;
 	Font font=new Font("Helvetica", Font.BOLD, fontSize);
 	Gameeasy(){
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -39,7 +40,7 @@ public class Gameeasy extends JFrame {
 	    
 	    //œrodkowy panel
 	    
-	    Easyframe easyframe =  new Easyframe();
+	    Easyframe easyframe =  new Easyframe(c);
 	    this.add(easyframe, BorderLayout.CENTER);
 	    
 	    

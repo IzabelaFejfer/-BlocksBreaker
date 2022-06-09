@@ -20,7 +20,7 @@ import javax.swing.SwingConstants;
 
 
 
-public class Gamehard extends JFrame {
+public class Gamehard extends JFrame implements ActionListener {
 	JPanel panel1, panel2;
 	JButton button1, button2, button3 ;
 	JMenuBar menubar;
@@ -40,12 +40,6 @@ public class Gamehard extends JFrame {
 	    this.setLayout(new BorderLayout());
 	    this.setResizable(false);
 	    
-	    //œrodkowy panel
-	    
-	    Hardframe hardframe =  new Hardframe();
-	    this.add(hardframe, BorderLayout.CENTER);
-	    
-	    
 	    //prawy panel
 	    panel1=new JPanel();
 	    panel1.setLayout(new GridLayout(8,1, 15, 15));
@@ -62,8 +56,18 @@ public class Gamehard extends JFrame {
 	    sclabel.setHorizontalAlignment(SwingConstants.CENTER);
 	    radiobutton1 = new JRadioButton("Tryb jasny");
 	    radiobutton1.setBackground(color1);
+	    radiobutton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	c=0;
+            	repaint();
+              	}});
 	    radiobutton2 = new JRadioButton("Tryb ciemny");
 	    radiobutton2.setBackground(color1);
+	    radiobutton2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	c=1;
+            	//tu trzeba chyba coœ zrobiæ ¿eby to odœwie¿a³o ten panel z plansz¹ jak siê naciœnie 
+              	}});
 	    button1 = new JButton("Nowa Gra");
 	    button1.setBackground(color2);
 	    button2 = new JButton("Zatrzymaj grê");
@@ -82,6 +86,18 @@ public class Gamehard extends JFrame {
 	    panel1.add(button2);
 	    panel1.add(button3);
 	    this.add(panel1, BorderLayout.LINE_END);
+	    
+	    //œrodkowy panel
+	    Hardframe hardframe =  new Hardframe(c);
+	    this.add(hardframe, BorderLayout.CENTER);
+	    
+	    
+	    
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
