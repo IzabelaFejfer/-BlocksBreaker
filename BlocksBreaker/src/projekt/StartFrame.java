@@ -24,7 +24,7 @@ public class StartFrame extends JFrame {
 	JMenuItem item1, item2;
 	
 	StartFrame(){
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setSize(900,600);
 	    this.setTitle("BlocksBreaker");
 	    this.setResizable(false); 
@@ -32,12 +32,12 @@ public class StartFrame extends JFrame {
 		ImageIcon image = new ImageIcon("images/image.png");
 		label.setIcon(image);
 	    label.setLayout(new GridLayout(4, 5,30, 20));
-	    label1=new JLabel("Wybierz poziom trudnoÅ“ci gry");
+	    label1=new JLabel("Wybierz poziom trudnoœci gry");
 	    label1.setFont(font);
 	    label1.setVerticalAlignment(SwingConstants.CENTER);
         label1.setHorizontalAlignment(SwingConstants.CENTER);
         Color color1 = new Color(245, 244, 151);
-	    buttonlatwy = new JButton("Â£atwy");
+	    buttonlatwy = new JButton("£atwy");
 	    buttonlatwy.setBackground(color1);
 	    ActionListener latwy = new ActionListener() {
 			@Override
@@ -65,9 +65,9 @@ public class StartFrame extends JFrame {
 	    label.add(buttontrudny);
 		this.add(label);
 	    
-	    //MENUJÃŠZYK
+	    //MENUJÊZYK
 	    menubar = new JMenuBar();
-	    menu = new JMenu("JÃªzyk");
+	    menu = new JMenu("Jêzyk");
 	    item1 = new JMenuItem("polski");
 	    item2 = new JMenuItem("angielski");
 	    menu.add(item1);

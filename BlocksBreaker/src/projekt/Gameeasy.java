@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
+
+
 public class Gameeasy extends JFrame {
 	JPanel panel1, panel2;
 	JButton button1, button2, button3 ;
@@ -25,9 +27,10 @@ public class Gameeasy extends JFrame {
 	JRadioButton radiobutton1, radiobutton2;
 	ButtonGroup grupa;
 	JLabel scorelabel, sclabel;
+	int score=0;
 	int fontSize=20;
+	int c;
 	Font font=new Font("Helvetica", Font.BOLD, fontSize);
-	
 	Gameeasy(){
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    this.setSize(900,600);
@@ -35,8 +38,13 @@ public class Gameeasy extends JFrame {
 	    this.setLayout(new BorderLayout());
 	    this.setResizable(false);
 	    
-	    //prawy panel
+	    //œrodkowy panel
 	    
+	    Easyframe easyframe =  new Easyframe(c);
+	    this.add(easyframe, BorderLayout.CENTER);
+	    
+	    
+	    //prawy panel
 	    panel1=new JPanel();
 	    panel1.setLayout(new GridLayout(8,1, 15, 15));
 	    Color color1 = new Color(176, 224, 230);
@@ -46,10 +54,7 @@ public class Gameeasy extends JFrame {
 	    scorelabel.setFont(font);
 	    scorelabel.setVerticalAlignment(SwingConstants.CENTER);
 	    scorelabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    
-	   // score = easyframe.score;
-	    
-	    sclabel=new JLabel("");
+	    sclabel=new JLabel(""+score);
 	    sclabel.setFont(font);
 	    sclabel.setVerticalAlignment(SwingConstants.CENTER);
 	    sclabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -75,10 +80,6 @@ public class Gameeasy extends JFrame {
 	    panel1.add(button2);
 	    panel1.add(button3);
 	    this.add(panel1, BorderLayout.LINE_END);
-
-	    //œrodkowy panel
-	    
-	    Easyframe easyframe =  new Easyframe(sclabel);
-	    this.add(easyframe, BorderLayout.CENTER);
 	}
+
 }
