@@ -19,7 +19,6 @@ import properties.BallProperties;
 public class Hardframe extends JPanel implements KeyListener, ActionListener{
 
 	private boolean start = false;
-	Random r = new Random();
 	private int posX = 300;
 	private Ball ball = new Ball(
 			BallProperties.getBallX(), BallProperties.getBallY(),
