@@ -50,8 +50,12 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 	AudioInputStream audioStream = null;
 	 boolean playCompleted = false;
 	 int d;
-	public Hardframe(int c) {
+	private JLabel my_scorelabel;
+
+	 
+	public Hardframe(int c, JLabel scorelabel) {
 		
+		my_scorelabel=scorelabel;
 		mapa = new Map(a,b,c);
 		addKeyListener(this);
 		setFocusable(true);
@@ -59,7 +63,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 		timer = new Timer(delay, this);
 		timer.start();
 		d=c;
-		
+
 	}
 	
 
@@ -226,6 +230,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener{
 						if(ballRect.intersects(brickRect)) {
 							mapa.setBrickValue(0,i,j);
 							score+=5;
+							my_scorelabel.setText(""+score);
 							play("./images/a.wav");
 							if(score==5*a*b)
 							{

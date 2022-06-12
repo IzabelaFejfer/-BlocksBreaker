@@ -38,10 +38,7 @@ public class Gameeasy extends JFrame {
 	    this.setLayout(new BorderLayout());
 	    this.setResizable(false);
 	    
-	    //œrodkowy panel
-	    
-	    Easyframe easyframe =  new Easyframe(c);
-	    this.add(easyframe, BorderLayout.CENTER);
+
 	    
 	    
 	    //prawy panel
@@ -54,7 +51,7 @@ public class Gameeasy extends JFrame {
 	    scorelabel.setFont(font);
 	    scorelabel.setVerticalAlignment(SwingConstants.CENTER);
 	    scorelabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    sclabel=new JLabel(""+score);
+	    sclabel=new JLabel("");
 	    sclabel.setFont(font);
 	    sclabel.setVerticalAlignment(SwingConstants.CENTER);
 	    sclabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -80,6 +77,11 @@ public class Gameeasy extends JFrame {
 	    panel1.add(button2);
 	    panel1.add(button3);
 	    this.add(panel1, BorderLayout.LINE_END);
+
+	    //œrodkowy panel
+	    
+	    Easyframe easyframe =  new Easyframe(c, sclabel);
+	    this.add(easyframe, BorderLayout.CENTER);
 	}
 
 }

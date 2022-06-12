@@ -33,6 +33,7 @@ public class Gamehard extends JFrame implements ActionListener {
 	//int score=0;
 	int fontSize=20;
 	Font font=new Font("Helvetica", Font.BOLD, fontSize);
+	
 	Gamehard(){
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    this.setSize(900,600);
@@ -88,7 +89,7 @@ public class Gamehard extends JFrame implements ActionListener {
 	    this.add(panel1, BorderLayout.LINE_END);
 	    
 	    //œrodkowy panel
-	    Hardframe hardframe =  new Hardframe(c);
+	    Hardframe hardframe =  new Hardframe(c, sclabel);
 	    this.add(hardframe, BorderLayout.CENTER);
 	    
 	    
