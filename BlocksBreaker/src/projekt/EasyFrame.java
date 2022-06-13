@@ -12,9 +12,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,8 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
-public class Gamehard extends JFrame {
-	Hardframe hardframe;
+public class EasyFrame extends JFrame {
+	EasyGame easyframe;
 	JPanel panel1, panel2;
 	JButton button1, button2, button3;
 	JMenuBar menubar;
@@ -40,11 +43,11 @@ public class Gamehard extends JFrame {
 	int c;
 	boolean pauza = false;
 	Font font = new Font("Helvetica", Font.BOLD, fontSize);
-	Color kolorPrzyciskow; 
+    Color kolorPrzyciskow; 
     Color kolorTla; 
-    
-    Gamehard() {	
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	
+	EasyFrame() {	
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setSize(900,600);
 	    this.setTitle("BlocksBreaker");
 	    this.setLayout(new BorderLayout());
@@ -85,22 +88,22 @@ public class Gamehard extends JFrame {
 				    radiobutton1.addActionListener(new ActionListener() {			//listener do jasnego
 				    			@Override
 					   	        public void actionPerformed(ActionEvent arg) {
-					   	        	hardframe.trybJasny();
+					   	        	easyframe.trybJasny();
 					   	        	bokJasny();
 					   	        	radiobutton1.setFocusable(false);
-					   	        	hardframe.setFocusable(true);
-					   	        	hardframe.requestFocusInWindow(); 
+								    easyframe.setFocusable(true);
+								    easyframe.requestFocusInWindow(); 
 					   	        }
 				            });
 				  
 				    radiobutton2.addActionListener(new ActionListener() {			//listener do ciemnego
 				   	        	@Override
 					   	        public void actionPerformed(ActionEvent arg) {
-				   	        		hardframe.trybCiemny();
+					   	        	easyframe.trybCiemny();
 					   	        	bokCiemny();
 					   	        	radiobutton2.setFocusable(false);
-					   	        	hardframe.setFocusable(true);
-					   	        	hardframe.requestFocusInWindow();
+								    easyframe.setFocusable(true);
+								    easyframe.requestFocusInWindow();
 					   	        }
 				            });
 				  
@@ -126,24 +129,24 @@ public class Gamehard extends JFrame {
 					   	                }
 					   	            }
 								    button3.setFocusable(false);
-								    hardframe.setFocusable(true);	
-								    hardframe.requestFocusInWindow(); 
+								    easyframe.setFocusable(true);	
+								    easyframe.requestFocusInWindow(); 
 					   	        }
 				            });
 				  
 				    button1.addActionListener(new ActionListener() {				//listener do nowej gry
 				   	        @Override
 				   	        public void actionPerformed(ActionEvent arg) {
-				   	        	hardframe.newGame();
+				   	        	easyframe.newGame();
 				   	        	button1.setFocusable(false);
-				   	        	hardframe.setFocusable(true);
-				   	        	hardframe.requestFocusInWindow(); 
+							    easyframe.setFocusable(true);
+							    easyframe.requestFocusInWindow(); 
 							    
 					   	        if (radiobutton1.isSelected()) {
-					   	        	hardframe.trybJasny();
+					   	        	easyframe.trybJasny();
 					   	        }
 					   	        else {
-					   	        	hardframe.trybCiemny();
+					   	        	easyframe.trybCiemny();
 					   	        }			   	    
 				   	        }
 		            });
@@ -152,26 +155,26 @@ public class Gamehard extends JFrame {
 				   	        @Override
 				   	        public void actionPerformed(ActionEvent arg) {
 				   	            if (pauza==false) {
-				   	            	hardframe.stopGame();
+				   	            	easyframe.stopGame();
 								    pauza = true;
 								    button2.setText("Wznow gre");
 				   	            }
 				   	            else {
-				   	            	hardframe.startGame();	
+				   	            	easyframe.startGame();	
 								    pauza = false;
 								    button2.setText("Zatrzymaj gre");
 				   	            }
 			   	            	button2.setFocusable(false);
-			   	            	hardframe.setFocusable(true);
-			   	            	hardframe.requestFocusInWindow(); 
+							    easyframe.setFocusable(true);
+							    easyframe.requestFocusInWindow(); 
 				   	        };
 		            });
 			  }	
 		};			
 		threadPrawy.start();
 		bokJasny();
-		this.hardframe = new Hardframe(c, sclabel);
-		this.add(hardframe, BorderLayout.CENTER);
+		this.easyframe = new EasyGame(c, sclabel);
+		this.add(easyframe, BorderLayout.CENTER);
 	}
 	
 	public void bokCiemny() {

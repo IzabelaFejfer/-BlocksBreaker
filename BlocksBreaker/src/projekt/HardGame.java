@@ -11,11 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
 import java.util.Random;
 
 import javax.sound.sampled.AudioFormat;
@@ -23,18 +19,16 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.WindowConstants;
 
-public class Easyframe extends JPanel implements ActionListener, KeyListener {
+public class HardGame extends JPanel implements KeyListener, ActionListener {
 	private boolean start = false;
 	private boolean playCompleted = false;
 	private Timer timer;
@@ -42,29 +36,29 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 	String audioFilePath = "";
 	Clip audioClip = null;
 	File audioFile = null;
-	AudioInputStream audioStream = null;	
+	AudioInputStream audioStream = null;
 	private int posX = 300;
-	private int platv = 20;
-	private int ballX = r.nextInt(760)+5;
+	private int platv = 30; 
+	private int ballX = r.nextInt(650)+5;
 	private int ballY = 300;
-	private int ballvx = -2;
-	private int ballvy = 3;
-	private int delay = 0;
+	private int ballvx = -3;
+	private int ballvy = 4;
+	private int delay = 3;
 	private int score = 0;
-	private int a = 4;
+	private int a = 5;
 	private int b = 8;
-	private int c;
+	private int d;
 	private JLabel my_scorelabel;
 	private Map mapa;
-
+	Color kolornapisu=Color.BLACK;
 	Color niebieski = new Color(176, 224, 230);
 	private Color kolorPilki  = Color.BLUE;
 	private Color kolorPlatformy = Color.RED;
 	private Color kolorTla = Color.WHITE;
 	private Color kolorPanelPrawy = niebieski;
-
-	public Easyframe(int c, JLabel scorelabel) {
-		this.c = c;
+	 
+	public HardGame(int c, JLabel scorelabel) {
+		this.d = c;
 		my_scorelabel = scorelabel;
 		mapa = new Map(a,b,c);
 		mapa.trybJasny();
@@ -73,11 +67,13 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		timer = new Timer(delay, this);
 		timer.start();
 	}
-
+	
 	public void paint (Graphics g) {
 		//tlo
 		g.setColor(kolorTla);
 		g.fillRect(1, 1, 800, 600);
+		g.setColor(kolornapisu);
+		g.drawString("Naciœnij start, aby rozpocz¹æ grê", 300, 30);
 		//mapka
 		mapa.draw((Graphics2D)g);
 		//kontury
@@ -87,10 +83,10 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(770, 0, 3, 600);
 		//pilka
 		g.setColor(kolorPilki);
-		g.fillOval(ballX, ballY, 20, 20);
+		g.fillOval(ballX, ballY, 15, 15);
 		//platforma
 		g.setColor(kolorPlatformy);
-		g.fillRect(posX, 550, 100, 7);
+		g.fillRect(posX, 550, 70, 7);
 	}
 	
 	@Override
@@ -166,7 +162,7 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		        ballvy=0;
 		        play("./images/c.wav");
 			}
-			
+
 			if(ballX<0) {
 				ballvx = -ballvx;	
 			}
@@ -179,7 +175,7 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 				ballvx = -ballvx;	
 			}
 			
-			if(new Rectangle(ballX, ballY, 20, 20).intersects(new Rectangle(posX-3, 550, 106, 7))) {
+			if(new Rectangle(ballX, ballY, 15, 15).intersects(new Rectangle(posX-3, 550, 76, 7))) {
 				ballvy = -ballvy;
 			}
 					A: for(int i=0; i<mapa.map.length;i++) {
@@ -188,11 +184,11 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 								int blockX = j*mapa.width+mapa.width;
 								int blockY = i*mapa.height+mapa.height;
 								int width = mapa.width;
-								int height = mapa.height;
+								int height = mapa.height; 
 								Rectangle rect = new Rectangle(blockX, blockY, width, height);
-								Rectangle ballRect = new Rectangle (ballX, ballY, 20, 20);
+								Rectangle ballRect = new Rectangle (ballX, ballY, 15, 15);
 								Rectangle brickRect = rect;
-							
+						
 								if(ballRect.intersects(brickRect)) {
 									mapa.setBrickValue(0,i,j);
 									score += 5;
@@ -221,24 +217,24 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 						        		ballvx=0;
 						        		ballvy=0;
 						        		play("./images/b.wav");
-									}
-									
-									if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
-										ballvx = -ballvx;
-									}
-									else {
-										ballvy = -ballvy;
-									}
-										break A;
-								}
 							}
+							
+							if(ballX+1<=brickRect.x||ballX>= brickRect.x+brickRect.width-3) {
+								ballvx = -ballvx;
+							}
+							else {
+								ballvy = -ballvy;
+							}
+								break A;
 						}
 					}
 				}
-				repaint();
+			}
+		}
+		repaint();
 	}
-			 
-    void play(String audioFilePath) {
+	
+	void play(String audioFilePath) {
         try {
             audioFile = new File(audioFilePath);
             audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -276,29 +272,31 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 			e1.printStackTrace();
 		}  
     }
-     
-    public void stopGame() {
-    	ballvx = 0;
-    	ballvy = 0;
+    
+	public void stopGame() {
+	   	ballvx = 0;
+	   	ballvy = 0;
 	 	platv = 0;
 	}
 	
 	public void startGame() {
-		 ballvx = -2;
-		 ballvy = 3;
-		 platv = 20;
+		 ballvx = -3;
+		 ballvy = 4;
+		 platv = 30;
 	}
 	
 	public void newGame() {
-		mapa = new Map(a,b,c);
-		ballX = r.nextInt(768);
+		mapa = new Map(a,b,d);
+		ballX = r.nextInt(650)+5;
 		ballY = 300;
 		posX = 300;
-		score = 0;
 		my_scorelabel.setText("");
-		ballvx = -2;
-		ballvy = 3;
-		platv = 20;
+		score = 0;
+		ballvx = -3;
+		ballvy = 4;
+		platv = 30;
+		start = false;
+		kolornapisu = Color.BLACK;
 		repaint();
 	}
 	

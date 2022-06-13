@@ -6,9 +6,6 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -59,7 +56,7 @@ public class StartFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				 synchronized (this){
-						Gameeasy frame = new Gameeasy();
+						EasyFrame frame = new EasyFrame();
 				        frame.setVisible(true);
 				 }
 			}	
@@ -73,7 +70,7 @@ public class StartFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				synchronized (this){
-						Gamehard frame = new Gamehard();
+						HardFrame frame = new HardFrame();
 				        frame.setVisible(true);;
 				}	
 			}
@@ -84,15 +81,6 @@ public class StartFrame extends JFrame {
 	    label.add(buttonlatwy);
 	    label.add(buttontrudny);
 		this.add(label);
-	    
-	    //MENUJÊZYK
-	    menubar = new JMenuBar();
-	    menu = new JMenu("Jêzyk");
-	    item1 = new JMenuItem("polski");
-	    item2 = new JMenuItem("angielski");
-	    menu.add(item1);
-	    menu.add(item2);
-	    menubar.add(menu);
-	    this.setJMenuBar(menubar);
+
 	}
 }

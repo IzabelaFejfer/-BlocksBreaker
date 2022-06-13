@@ -26,9 +26,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
-import javax.swing.WindowConstants;
 
-public class Hardframe extends JPanel implements KeyListener, ActionListener {
+public class EasyGame extends JPanel implements ActionListener, KeyListener {
 	private boolean start = false;
 	private boolean playCompleted = false;
 	private Timer timer;
@@ -36,29 +35,30 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 	String audioFilePath = "";
 	Clip audioClip = null;
 	File audioFile = null;
-	AudioInputStream audioStream = null;
+	AudioInputStream audioStream = null;	
 	private int posX = 300;
-	private int platv = 30; 
-	private int ballX = r.nextInt(760)+5;
+	private int platv = 20;
+	private int ballX = r.nextInt(650)+5;
 	private int ballY = 300;
-	private int ballvx = -3;
-	private int ballvy = 4;
-	private int delay = 3;
+	private int ballvx = -2;
+	private int ballvy = 3;
+	private int delay = 0;
 	private int score = 0;
-	private int a = 5;
+	private int a = 4;
 	private int b = 8;
-	private int d;
+	private int c;
 	private JLabel my_scorelabel;
 	private Map mapa;
 	
+	Color kolornapisu=Color.BLACK;
 	Color niebieski = new Color(176, 224, 230);
 	private Color kolorPilki  = Color.BLUE;
 	private Color kolorPlatformy = Color.RED;
 	private Color kolorTla = Color.WHITE;
 	private Color kolorPanelPrawy = niebieski;
-	 
-	public Hardframe(int c, JLabel scorelabel) {
-		this.d = c;
+
+	public EasyGame(int c, JLabel scorelabel) {
+		this.c = c;
 		my_scorelabel = scorelabel;
 		mapa = new Map(a,b,c);
 		mapa.trybJasny();
@@ -67,11 +67,15 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 		timer = new Timer(delay, this);
 		timer.start();
 	}
-	
+
 	public void paint (Graphics g) {
 		//tlo
 		g.setColor(kolorTla);
 		g.fillRect(1, 1, 800, 600);
+		
+		g.setColor(kolornapisu);
+		g.drawString("Naciœnij start, aby rozpocz¹æ grê", 300, 30);
+		
 		//mapka
 		mapa.draw((Graphics2D)g);
 		//kontury
@@ -81,10 +85,11 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 		g.fillRect(770, 0, 3, 600);
 		//pilka
 		g.setColor(kolorPilki);
-		g.fillOval(ballX, ballY, 15, 15);
+		g.fillOval(ballX, ballY, 20, 20);
 		//platforma
 		g.setColor(kolorPlatformy);
-		g.fillRect(posX, 550, 70, 7);
+		g.fillRect(posX, 550, 100, 7);
+		
 	}
 	
 	@Override
@@ -112,6 +117,8 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			start = true;
+			kolornapisu=Color.WHITE;
+			repaint();
 		}
 	}
 	
@@ -160,7 +167,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 		        ballvy=0;
 		        play("./images/c.wav");
 			}
-
+			
 			if(ballX<0) {
 				ballvx = -ballvx;	
 			}
@@ -173,7 +180,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 				ballvx = -ballvx;	
 			}
 			
-			if(new Rectangle(ballX, ballY, 15, 15).intersects(new Rectangle(posX-3, 550, 76, 7))) {
+			if(new Rectangle(ballX, ballY, 20, 20).intersects(new Rectangle(posX-3, 550, 106, 7))) {
 				ballvy = -ballvy;
 			}
 					A: for(int i=0; i<mapa.map.length;i++) {
@@ -182,11 +189,11 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 								int blockX = j*mapa.width+mapa.width;
 								int blockY = i*mapa.height+mapa.height;
 								int width = mapa.width;
-								int height = mapa.height; 
+								int height = mapa.height;
 								Rectangle rect = new Rectangle(blockX, blockY, width, height);
-								Rectangle ballRect = new Rectangle (ballX, ballY, 15, 15);
+								Rectangle ballRect = new Rectangle (ballX, ballY, 20, 20);
 								Rectangle brickRect = rect;
-						
+							
 								if(ballRect.intersects(brickRect)) {
 									mapa.setBrickValue(0,i,j);
 									score += 5;
@@ -215,24 +222,24 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 						        		ballvx=0;
 						        		ballvy=0;
 						        		play("./images/b.wav");
+									}
+									
+									if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
+										ballvx = -ballvx;
+									}
+									else {
+										ballvy = -ballvy;
+									}
+										break A;
+								}
 							}
-							
-							if(ballX+1<=brickRect.x||ballX>= brickRect.x+brickRect.width-3) {
-								ballvx = -ballvx;
-							}
-							else {
-								ballvy = -ballvy;
-							}
-								break A;
 						}
 					}
 				}
-			}
-		}
-		repaint();
+				repaint();
 	}
-	
-	void play(String audioFilePath) {
+			 
+    void play(String audioFilePath) {
         try {
             audioFile = new File(audioFilePath);
             audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -270,29 +277,31 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 			e1.printStackTrace();
 		}  
     }
-    
-	public void stopGame() {
-	   	ballvx = 0;
-	   	ballvy = 0;
+     
+    public void stopGame() {
+    	ballvx = 0;
+    	ballvy = 0;
 	 	platv = 0;
 	}
 	
 	public void startGame() {
-		 ballvx = -3;
-		 ballvy = 4;
-		 platv = 30;
+		 ballvx = -2;
+		 ballvy = 3;
+		 platv = 20;
 	}
 	
 	public void newGame() {
-		mapa = new Map(a,b,d);
-		ballX = r.nextInt(768);
+		mapa = new Map(a,b,c);
+		ballX = r.nextInt(650)+5;
 		ballY = 300;
 		posX = 300;
-		my_scorelabel.setText("");
 		score = 0;
-		ballvx = -3;
-		ballvy = 4;
-		platv = 30;
+		my_scorelabel.setText("");
+		ballvx = -2;
+		ballvy = 3;
+		platv = 20;
+		start = false;
+		kolornapisu = Color.BLACK;
 		repaint();
 	}
 	
