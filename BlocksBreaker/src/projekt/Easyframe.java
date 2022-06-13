@@ -11,7 +11,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.Random;
 
 import javax.sound.sampled.AudioFormat;
@@ -23,17 +27,19 @@ import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-public class Easyframe extends JPanel implements KeyListener, ActionListener{
+public class Easyframe extends JPanel implements ActionListener, KeyListener{
 
 	private boolean start = false;
 	Random r = new Random();
 	private int posX = 300;
+	private int platv = 20;
 	private int ballX = r.nextInt(768);
 	private int ballY = 300;
 	private int ballvx = -2;
@@ -44,15 +50,17 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 	private int score=0;
 	private int a=4;
 	private int b=8;
+	private int c;
 	String audioFilePath = "";
 	Clip audioClip = null;
 	File audioFile = null;
 	AudioInputStream audioStream = null;	
-    boolean playCompleted = false;
+	private boolean playCompleted = false;
 	private JLabel my_scorelabel;
 
 	public Easyframe(int c, JLabel scorelabel) {
 
+		this.c=c;
 		my_scorelabel=scorelabel;
 		mapa = new Map(a,b,c);
 		addKeyListener(this);
@@ -60,9 +68,55 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 		setFocusTraversalKeysEnabled(false);
 		timer = new Timer(delay, this);
 		timer.start();
-		
+		  
+//	    Thread threadSrodek = new Thread () {	
+//			  public void run () {
+//				  addKeyListener(new KeyListener()
+//						  {
+//
+//					  @Override
+//						public void keyTyped(KeyEvent e) {
+//							// TODO Auto-generated method stub
+//							
+//						}
+//
+//						@Override
+//						public void keyPressed(KeyEvent e) {
+//						       setFocusable(true);
+//						        setRequestFocusEnabled(true);
+//						        requestFocus();
+//							if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+//								if(posX >= 670) {
+//								 posX = 670;
+//								} else {
+//									moveRight();
+//								}
+//							}
+//							if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+//								if(posX <= 3) {
+//									 posX = 3;
+//									} else {
+//										moveLeft();
+//									}
+//							}
+//							if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+//								start = true;
+//							}
+//						}
+//							@Override
+//							public void keyReleased(KeyEvent e) {
+//								// TODO Auto-generated method stub
+//								
+//							}
+//					  
+//						  });
+//				  requestFocus(true);
+//			 
+//			  }
+//	    };
+//		threadSrodek.start();
+
 	}
-	
 
 	
 	public void paint (Graphics g) {
@@ -91,6 +145,8 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 		//g.dispose();
 		
 	}
+	
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -119,11 +175,11 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 	}
 	
 	public void moveRight() {
-		posX += 20;
+		posX += platv;
 	}
 	
 	public void moveLeft() {
-		posX -= 20;
+		posX -= platv;
 	}
 	
 	@Override
@@ -134,111 +190,220 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		timer.start();
-		if(start) {
-			ballX += ballvx;
-			ballY += ballvy;
-			
-			if(ballY>this.getHeight()) {
-				Font font=new Font("Helvetica", Font.BOLD, 20);
-				JDialog okienko = new JDialog();
-				JPanel panel = new JPanel();
-        		okienko.setSize(300,200);
-        		panel.setLayout(new GridLayout(3,1));
-        		JLabel label2 = new JLabel("Przegra³eœ!");
-        		JLabel label3 = new JLabel("Zdobyte punkty: "+score);
-        		label2.setFont(font);
-        		label3.setFont(font);
-        		label2.setVerticalAlignment(SwingConstants.CENTER);
-                label2.setHorizontalAlignment(SwingConstants.CENTER);
-                label3.setVerticalAlignment(SwingConstants.CENTER);
-                label3.setHorizontalAlignment(SwingConstants.CENTER);
-                Color color1 = new Color(176, 224, 230);
-                panel.setBackground(color1);				                
-        		panel.add(label2);
-        		panel.add(label3);
-        		okienko.add(panel);
-        		okienko.setVisible(true);
-        		ballX = r.nextInt(768);
-        		ballY = 300;
-        		ballvx=0;
-        		ballvy=0;
-        		play("./images/c.wav");
-			}
-			
-			
-			if(ballX<0) {
-				ballvx = -ballvx;	
-			}
-			if(ballY<0) {
-				ballvy = -ballvy;	
-			}
-			if(ballX>750) {
-				ballvx = -ballvx;	
-			}
-			if(new Rectangle(ballX, ballY, 20, 20).intersects(new Rectangle(posX-3, 550, 106, 7))) {
-				ballvy = -ballvy;
-			}
-			
-			A: for(int i=0; i<mapa.map.length;i++) {
-				for(int j=0; j<mapa.map[0].length;j++ ) {
-					if(mapa.map[i][j]>0) {
-						int blockX = j*mapa.width+mapa.width;
-						int blockY = i*mapa.height+mapa.height;
-						int width = mapa.width;
-						int height = mapa.height;
-						Rectangle rect = new Rectangle(blockX, blockY, width, height);
-						Rectangle ballRect = new Rectangle (ballX, ballY, 20, 20);
-						Rectangle brickRect = rect;
-						
-							
-						if(ballRect.intersects(brickRect)) {
-							mapa.setBrickValue(0,i,j);
-							score+=5;
 
-							my_scorelabel.setText(""+score);
-							play("./images/a.wav");
-							if(score==5*a*b)
-							{
-								Font font=new Font("Helvetica", Font.BOLD, 20);
-								JDialog okienko = new JDialog();
-								JPanel panel = new JPanel();
-				        		okienko.setSize(300,200);
-				        		panel.setLayout(new GridLayout(3,1));
-				        		JLabel label2 = new JLabel("Wygra³eœ!");
-				        		JLabel label3 = new JLabel("Zdobyte punkty: "+score);
-				        		label2.setFont(font);
-				        		label3.setFont(font);
-				        		label2.setVerticalAlignment(SwingConstants.CENTER);
-				                label2.setHorizontalAlignment(SwingConstants.CENTER);
-				                label3.setVerticalAlignment(SwingConstants.CENTER);
-				                label3.setHorizontalAlignment(SwingConstants.CENTER);
-				                Color color1 = new Color(176, 224, 230);
-				                panel.setBackground(color1);				                
-				        		panel.add(label2);
-				        		panel.add(label3);
-				        		okienko.add(panel);
-				        		okienko.setVisible(true);
-				        		ballvx=0;
-				        		ballvy=0;
-				        		play("./images/b.wav");
+				timer.start();
+				if(start) {
+					ballX += ballvx;
+					ballY += ballvy;
+					
+					if(ballY>getHeight()) {
+						Font font=new Font("Helvetica", Font.BOLD, 20);
+						JDialog okienko = new JDialog();
+						JPanel panel = new JPanel();
+		        		okienko.setSize(300,200);
+		        		panel.setLayout(new GridLayout(3,1));
+		        		JLabel label2 = new JLabel("Przegra³eœ!");
+		        		JLabel label3 = new JLabel("Zdobyte punkty: "+score);
+		        		label2.setFont(font);
+		        		label3.setFont(font);
+		        		label2.setVerticalAlignment(SwingConstants.CENTER);
+		                label2.setHorizontalAlignment(SwingConstants.CENTER);
+		                label3.setVerticalAlignment(SwingConstants.CENTER);
+		                label3.setHorizontalAlignment(SwingConstants.CENTER);
+		                Color color1 = new Color(176, 224, 230);
+		                panel.setBackground(color1);				                
+		        		panel.add(label2);
+		        		panel.add(label3);
+		        		okienko.add(panel);
+		        		okienko.setVisible(true);
+		        		ballX = r.nextInt(768);
+		        		ballY = 300;
+		        		ballvx=0;
+		        		ballvy=0;
+		        		play("./images/c.wav");
+					}
+					
+					
+					if(ballX<0) {
+						ballvx = -ballvx;	
+					}
+					if(ballY<0) {
+						ballvy = -ballvy;	
+					}
+					if(ballX>750) {
+						ballvx = -ballvx;	
+					}
+					if(new Rectangle(ballX, ballY, 20, 20).intersects(new Rectangle(posX-3, 550, 106, 7))) {
+						ballvy = -ballvy;
+					}
+					
+					A: for(int i=0; i<mapa.map.length;i++) {
+						for(int j=0; j<mapa.map[0].length;j++ ) {
+							if(mapa.map[i][j]>0) {
+								int blockX = j*mapa.width+mapa.width;
+								int blockY = i*mapa.height+mapa.height;
+								int width = mapa.width;
+								int height = mapa.height;
+								Rectangle rect = new Rectangle(blockX, blockY, width, height);
+								Rectangle ballRect = new Rectangle (ballX, ballY, 20, 20);
+								Rectangle brickRect = rect;
+								
+									
+								if(ballRect.intersects(brickRect)) {
+									mapa.setBrickValue(0,i,j);
+									score+=5;
+
+									my_scorelabel.setText(""+score);
+									play("./images/a.wav");
+									if(score==5*a*b)
+									{
+										Font font=new Font("Helvetica", Font.BOLD, 20);
+										JDialog okienko = new JDialog();
+										JPanel panel = new JPanel();
+						        		okienko.setSize(300,200);
+						        		panel.setLayout(new GridLayout(3,1));
+						        		JLabel label2 = new JLabel("Wygra³eœ!");
+						        		JLabel label3 = new JLabel("Zdobyte punkty: "+score);
+						        		label2.setFont(font);
+						        		label3.setFont(font);
+						        		label2.setVerticalAlignment(SwingConstants.CENTER);
+						                label2.setHorizontalAlignment(SwingConstants.CENTER);
+						                label3.setVerticalAlignment(SwingConstants.CENTER);
+						                label3.setHorizontalAlignment(SwingConstants.CENTER);
+						                Color color1 = new Color(176, 224, 230);
+						                panel.setBackground(color1);				                
+						        		panel.add(label2);
+						        		panel.add(label3);
+						        		okienko.add(panel);
+						        		okienko.setVisible(true);
+						        		ballvx=0;
+						        		ballvy=0;
+						        		play("./images/b.wav");
+									}
+									
+								if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
+									ballvx = -ballvx;
+								}else {
+									ballvy = -ballvy;
+								}
+									break A;
+								}
 							}
-							
-						if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
-							ballvx = -ballvx;
-						}else {
-							ballvy = -ballvy;
-						}
-							break A;
 						}
 					}
 				}
+				
+				repaint();
 			}
-		}
-		
-		repaint();
-		
-	}
+			 
+		 
+//		 thread.start();
+	 
+//		timer.start();
+//		if(start) {
+//			ballX += ballvx;
+//			ballY += ballvy;
+//			
+//			if(ballY>this.getHeight()) {
+//				Font font=new Font("Helvetica", Font.BOLD, 20);
+//				JDialog okienko = new JDialog();
+//				JPanel panel = new JPanel();
+//        		okienko.setSize(300,200);
+//        		panel.setLayout(new GridLayout(3,1));
+//        		JLabel label2 = new JLabel("Przegra³eœ!");
+//        		JLabel label3 = new JLabel("Zdobyte punkty: "+score);
+//        		label2.setFont(font);
+//        		label3.setFont(font);
+//        		label2.setVerticalAlignment(SwingConstants.CENTER);
+//                label2.setHorizontalAlignment(SwingConstants.CENTER);
+//                label3.setVerticalAlignment(SwingConstants.CENTER);
+//                label3.setHorizontalAlignment(SwingConstants.CENTER);
+//                Color color1 = new Color(176, 224, 230);
+//                panel.setBackground(color1);				                
+//        		panel.add(label2);
+//        		panel.add(label3);
+//        		okienko.add(panel);
+//        		okienko.setVisible(true);
+//        		ballX = r.nextInt(768);
+//        		ballY = 300;
+//        		ballvx=0;
+//        		ballvy=0;
+//        		play("./images/c.wav");
+//			}
+//			
+//			
+//			if(ballX<0) {
+//				ballvx = -ballvx;	
+//			}
+//			if(ballY<0) {
+//				ballvy = -ballvy;	
+//			}
+//			if(ballX>750) {
+//				ballvx = -ballvx;	
+//			}
+//			if(new Rectangle(ballX, ballY, 20, 20).intersects(new Rectangle(posX-3, 550, 106, 7))) {
+//				ballvy = -ballvy;
+//			}
+//			
+//			A: for(int i=0; i<mapa.map.length;i++) {
+//				for(int j=0; j<mapa.map[0].length;j++ ) {
+//					if(mapa.map[i][j]>0) {
+//						int blockX = j*mapa.width+mapa.width;
+//						int blockY = i*mapa.height+mapa.height;
+//						int width = mapa.width;
+//						int height = mapa.height;
+//						Rectangle rect = new Rectangle(blockX, blockY, width, height);
+//						Rectangle ballRect = new Rectangle (ballX, ballY, 20, 20);
+//						Rectangle brickRect = rect;
+//						
+//							
+//						if(ballRect.intersects(brickRect)) {
+//							mapa.setBrickValue(0,i,j);
+//							score+=5;
+//
+//							my_scorelabel.setText(""+score);
+//							play("./images/a.wav");
+//							if(score==5*a*b)
+//							{
+//								Font font=new Font("Helvetica", Font.BOLD, 20);
+//								JDialog okienko = new JDialog();
+//								JPanel panel = new JPanel();
+//				        		okienko.setSize(300,200);
+//				        		panel.setLayout(new GridLayout(3,1));
+//				        		JLabel label2 = new JLabel("Wygra³eœ!");
+//				        		JLabel label3 = new JLabel("Zdobyte punkty: "+score);
+//				        		label2.setFont(font);
+//				        		label3.setFont(font);
+//				        		label2.setVerticalAlignment(SwingConstants.CENTER);
+//				                label2.setHorizontalAlignment(SwingConstants.CENTER);
+//				                label3.setVerticalAlignment(SwingConstants.CENTER);
+//				                label3.setHorizontalAlignment(SwingConstants.CENTER);
+//				                Color color1 = new Color(176, 224, 230);
+//				                panel.setBackground(color1);				                
+//				        		panel.add(label2);
+//				        		panel.add(label3);
+//				        		okienko.add(panel);
+//				        		okienko.setVisible(true);
+//				        		ballvx=0;
+//				        		ballvy=0;
+//				        		play("./images/b.wav");
+//							}
+//							
+//						if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
+//							ballvx = -ballvx;
+//						}else {
+//							ballvy = -ballvy;
+//						}
+//							break A;
+//						}
+//					}
+//				}
+//			}
+//		}
+//		
+//		repaint();
+//	}
+
 
     void play(String audioFilePath) {
     	
@@ -285,5 +450,31 @@ public class Easyframe extends JPanel implements KeyListener, ActionListener{
          
     }
      
+    
+    public void stopGame() {
+    	ballvx = 0;
+    	ballvy = 0;
+	 	platv=0;
 
+	}
+	
+	public void startGame() {
+		 ballvx = -2;
+		 ballvy = 3;
+		 platv = 20;
+
+	}
+	
+	public void newGame() {
+		mapa = new Map(a,b,c);
+		ballX = r.nextInt(768);
+		ballY = 300;
+		 posX = 300;
+		 score = 0;
+		 my_scorelabel.setText("");
+		 ballvx = -2;
+		 ballvy = 3;
+		 platv = 20;
+		 repaint();
+	}
 }
