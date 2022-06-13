@@ -11,11 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
 import java.util.Random;
 
 import javax.sound.sampled.AudioFormat;
@@ -23,18 +19,15 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-public class Easyframe extends JPanel implements ActionListener, KeyListener {
+public class EasyGame extends JPanel implements ActionListener, KeyListener {
 	private boolean start = false;
 	private boolean playCompleted = false;
 	private Timer timer;
@@ -45,7 +38,7 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 	AudioInputStream audioStream = null;	
 	private int posX = 300;
 	private int platv = 20;
-	private int ballX = r.nextInt(760)+5;
+	private int ballX = r.nextInt(650)+5;
 	private int ballY = 300;
 	private int ballvx = -2;
 	private int ballvy = 3;
@@ -56,14 +49,15 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 	private int c;
 	private JLabel my_scorelabel;
 	private Map mapa;
-
+	
+	Color kolornapisu=Color.BLACK;
 	Color niebieski = new Color(176, 224, 230);
 	private Color kolorPilki  = Color.BLUE;
 	private Color kolorPlatformy = Color.RED;
 	private Color kolorTla = Color.WHITE;
 	private Color kolorPanelPrawy = niebieski;
 
-	public Easyframe(int c, JLabel scorelabel) {
+	public EasyGame(int c, JLabel scorelabel) {
 		this.c = c;
 		my_scorelabel = scorelabel;
 		mapa = new Map(a,b,c);
@@ -78,6 +72,10 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		//tlo
 		g.setColor(kolorTla);
 		g.fillRect(1, 1, 800, 600);
+		
+		g.setColor(kolornapisu);
+		g.drawString("Naciœnij start, aby rozpocz¹æ grê", 300, 30);
+		
 		//mapka
 		mapa.draw((Graphics2D)g);
 		//kontury
@@ -91,6 +89,7 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		//platforma
 		g.setColor(kolorPlatformy);
 		g.fillRect(posX, 550, 100, 7);
+		
 	}
 	
 	@Override
@@ -118,6 +117,8 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			start = true;
+			kolornapisu=Color.WHITE;
+			repaint();
 		}
 	}
 	
@@ -291,7 +292,7 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 	
 	public void newGame() {
 		mapa = new Map(a,b,c);
-		ballX = r.nextInt(768);
+		ballX = r.nextInt(650)+5;
 		ballY = 300;
 		posX = 300;
 		score = 0;
@@ -299,6 +300,8 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		ballvx = -2;
 		ballvy = 3;
 		platv = 20;
+		start = false;
+		kolornapisu = Color.BLACK;
 		repaint();
 	}
 	
