@@ -70,7 +70,6 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		mapa.trybJasny();
 		addKeyListener(this);
 		setFocusable(true);
-		//setFocusTraversalKeysEnabled(false);
 		timer = new Timer(delay, this);
 		timer.start();
 	}

@@ -47,7 +47,7 @@ public class Gameeasy extends JFrame {
     Color kolorTla; 
 	
 	Gameeasy() {	
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    this.setSize(900,600);
 	    this.setTitle("BlocksBreaker");
 	    this.setLayout(new BorderLayout());

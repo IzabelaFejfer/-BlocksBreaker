@@ -44,7 +44,7 @@ public class Gamehard extends JFrame {
     Color kolorTla; 
     
     Gamehard() {	
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    this.setSize(900,600);
 	    this.setTitle("BlocksBreaker");
 	    this.setLayout(new BorderLayout());

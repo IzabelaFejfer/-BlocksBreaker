@@ -38,7 +38,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 	File audioFile = null;
 	AudioInputStream audioStream = null;
 	private int posX = 300;
-	private int platv = 20; 
+	private int platv = 30; 
 	private int ballX = r.nextInt(760)+5;
 	private int ballY = 300;
 	private int ballvx = -3;
@@ -64,7 +64,6 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 		mapa.trybJasny();
 		addKeyListener(this);
 		setFocusable(true);
-		//setFocusTraversalKeysEnabled(false);
 		timer = new Timer(delay, this);
 		timer.start();
 	}
@@ -281,7 +280,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 	public void startGame() {
 		 ballvx = -3;
 		 ballvy = 4;
-		 platv = 20;
+		 platv = 30;
 	}
 	
 	public void newGame() {
@@ -290,9 +289,10 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 		ballY = 300;
 		posX = 300;
 		my_scorelabel.setText("");
+		score = 0;
 		ballvx = -3;
 		ballvy = 4;
-		platv = 20;
+		platv = 30;
 		repaint();
 	}
 	
