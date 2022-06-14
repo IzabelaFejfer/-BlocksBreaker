@@ -28,7 +28,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
-public class Hardframe extends JPanel implements KeyListener, ActionListener {
+public class HardGame extends JPanel implements KeyListener, ActionListener {
 	private boolean start = false;
 	private boolean playCompleted = false;
 	private Timer timer;
@@ -39,25 +39,25 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 	AudioInputStream audioStream = null;
 	private int posX = 300;
 	private int platv = 30; 
-	private int ballX = r.nextInt(760)+5;
+	private int ballX = r.nextInt(650)+5;
 	private int ballY = 300;
 	private int ballvx = -3;
 	private int ballvy = 4;
-	private int delay = 3;
+	private int delay = 0;
 	private int score = 0;
 	private int a = 5;
 	private int b = 8;
 	private int d;
 	private JLabel my_scorelabel;
 	private Map mapa;
-	
+	Color k1=Color.BLACK, k2;
 	Color niebieski = new Color(176, 224, 230);
 	private Color kolorPilki  = Color.BLUE;
 	private Color kolorPlatformy = Color.RED;
 	private Color kolorTla = Color.WHITE;
 	private Color kolorPanelPrawy = niebieski;
 	 
-	public Hardframe(int c, JLabel scorelabel) {
+	public HardGame(int c, JLabel scorelabel) {
 		this.d = c;
 		my_scorelabel = scorelabel;
 		mapa = new Map(a,b,c);
@@ -72,6 +72,8 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 		//tlo
 		g.setColor(kolorTla);
 		g.fillRect(1, 1, 800, 600);
+		g.setColor(k1);
+		g.drawString("Nacisnij Enter, aby rozpocz¹æ grê", 300, 30);
 		//mapka
 		mapa.draw((Graphics2D)g);
 		//kontury
@@ -112,6 +114,8 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			start = true;
+			k1=k2;
+			repaint();
 		}
 	}
 	
@@ -217,7 +221,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 						        		play("./images/b.wav");
 							}
 							
-							if(ballX+1<=brickRect.x||ballX>= brickRect.x+brickRect.width-3) {
+							if(ballX<=brickRect.x||ballX>= brickRect.x+brickRect.width-3) {
 								ballvx = -ballvx;
 							}
 							else {
@@ -279,13 +283,13 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 	
 	public void startGame() {
 		 ballvx = -3;
-		 ballvy = 4;
+		 ballvy = -4;
 		 platv = 30;
 	}
 	
 	public void newGame() {
 		mapa = new Map(a,b,d);
-		ballX = r.nextInt(768);
+		ballX = r.nextInt(650)+5;
 		ballY = 300;
 		posX = 300;
 		my_scorelabel.setText("");
@@ -293,6 +297,7 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 		ballvx = -3;
 		ballvy = 4;
 		platv = 30;
+		start=false;
 		repaint();
 	}
 	
@@ -301,6 +306,8 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 		kolorPlatformy = Color.gray;
 		kolorTla = Color.black;
 		mapa.trybCiemny();
+		k2=Color.black;
+		k1=Color.white;
 		repaint();
 	}
 	
@@ -309,6 +316,8 @@ public class Hardframe extends JPanel implements KeyListener, ActionListener {
 		kolorPlatformy = Color.RED;
 		kolorTla = Color.WHITE;
 		mapa.trybJasny();
+		k1=Color.black;
+		k2=Color.white;
 		repaint();
 	}
 }

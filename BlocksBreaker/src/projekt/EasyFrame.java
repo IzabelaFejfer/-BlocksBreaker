@@ -28,8 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
-public class Gameeasy extends JFrame {
-	Easyframe easyframe;
+public class EasyFrame extends JFrame {
+	EasyGame easyGame;
 	JPanel panel1, panel2;
 	JButton button1, button2, button3;
 	JMenuBar menubar;
@@ -46,8 +46,8 @@ public class Gameeasy extends JFrame {
     Color kolorPrzyciskow; 
     Color kolorTla; 
 	
-	Gameeasy() {	
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	EasyFrame() {	
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setSize(900,600);
 	    this.setTitle("BlocksBreaker");
 	    this.setLayout(new BorderLayout());
@@ -88,22 +88,22 @@ public class Gameeasy extends JFrame {
 				    radiobutton1.addActionListener(new ActionListener() {			//listener do jasnego
 				    			@Override
 					   	        public void actionPerformed(ActionEvent arg) {
-					   	        	easyframe.trybJasny();
+					   	        	easyGame.trybJasny();
 					   	        	bokJasny();
 					   	        	radiobutton1.setFocusable(false);
-								    easyframe.setFocusable(true);
-								    easyframe.requestFocusInWindow(); 
+								    easyGame.setFocusable(true);
+								    easyGame.requestFocusInWindow(); 
 					   	        }
 				            });
 				  
 				    radiobutton2.addActionListener(new ActionListener() {			//listener do ciemnego
 				   	        	@Override
 					   	        public void actionPerformed(ActionEvent arg) {
-					   	        	easyframe.trybCiemny();
+					   	        	easyGame.trybCiemny();
 					   	        	bokCiemny();
 					   	        	radiobutton2.setFocusable(false);
-								    easyframe.setFocusable(true);
-								    easyframe.requestFocusInWindow();
+								    easyGame.setFocusable(true);
+								    easyGame.requestFocusInWindow();
 					   	        }
 				            });
 				  
@@ -129,24 +129,24 @@ public class Gameeasy extends JFrame {
 					   	                }
 					   	            }
 								    button3.setFocusable(false);
-								    easyframe.setFocusable(true);	
-								    easyframe.requestFocusInWindow(); 
+								    easyGame.setFocusable(true);	
+								    easyGame.requestFocusInWindow(); 
 					   	        }
 				            });
 				  
 				    button1.addActionListener(new ActionListener() {				//listener do nowej gry
 				   	        @Override
 				   	        public void actionPerformed(ActionEvent arg) {
-				   	        	easyframe.newGame();
+				   	        	easyGame.newGame();
 				   	        	button1.setFocusable(false);
-							    easyframe.setFocusable(true);
-							    easyframe.requestFocusInWindow(); 
+							    easyGame.setFocusable(true);
+							    easyGame.requestFocusInWindow(); 
 							    
 					   	        if (radiobutton1.isSelected()) {
-					   	        	easyframe.trybJasny();
+					   	        	easyGame.trybJasny();
 					   	        }
 					   	        else {
-					   	        	easyframe.trybCiemny();
+					   	        	easyGame.trybCiemny();
 					   	        }			   	    
 				   	        }
 		            });
@@ -155,26 +155,26 @@ public class Gameeasy extends JFrame {
 				   	        @Override
 				   	        public void actionPerformed(ActionEvent arg) {
 				   	            if (pauza==false) {
-				   	            	easyframe.stopGame();
+				   	            	easyGame.stopGame();
 								    pauza = true;
 								    button2.setText("Wznow gre");
 				   	            }
 				   	            else {
-				   	            	easyframe.startGame();	
+				   	            	easyGame.startGame();	
 								    pauza = false;
 								    button2.setText("Zatrzymaj gre");
 				   	            }
 			   	            	button2.setFocusable(false);
-							    easyframe.setFocusable(true);
-							    easyframe.requestFocusInWindow(); 
+							    easyGame.setFocusable(true);
+							    easyGame.requestFocusInWindow(); 
 				   	        };
 		            });
 			  }	
 		};			
 		threadPrawy.start();
 		bokJasny();
-		this.easyframe = new Easyframe(c, sclabel);
-		this.add(easyframe, BorderLayout.CENTER);
+		this.easyGame = new EasyGame(c, sclabel);
+		this.add(easyGame, BorderLayout.CENTER);
 	}
 	
 	public void bokCiemny() {

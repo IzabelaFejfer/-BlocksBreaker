@@ -59,7 +59,7 @@ public class StartFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				 synchronized (this){
-						Gameeasy frame = new Gameeasy();
+						EasyFrame frame = new EasyFrame();
 				        frame.setVisible(true);
 				 }
 			}	
@@ -73,7 +73,7 @@ public class StartFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				synchronized (this){
-						Gamehard frame = new Gamehard();
+						HardFrame frame = new HardFrame();
 				        frame.setVisible(true);;
 				}	
 			}

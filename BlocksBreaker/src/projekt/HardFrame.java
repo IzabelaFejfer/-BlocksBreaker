@@ -25,8 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
-public class Gamehard extends JFrame {
-	Hardframe hardframe;
+public class HardFrame extends JFrame {
+	HardGame hardGame;
 	JPanel panel1, panel2;
 	JButton button1, button2, button3;
 	JMenuBar menubar;
@@ -43,8 +43,8 @@ public class Gamehard extends JFrame {
 	Color kolorPrzyciskow; 
     Color kolorTla; 
     
-    Gamehard() {	
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    HardFrame() {	
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setSize(900,600);
 	    this.setTitle("BlocksBreaker");
 	    this.setLayout(new BorderLayout());
@@ -85,22 +85,22 @@ public class Gamehard extends JFrame {
 				    radiobutton1.addActionListener(new ActionListener() {			//listener do jasnego
 				    			@Override
 					   	        public void actionPerformed(ActionEvent arg) {
-					   	        	hardframe.trybJasny();
+					   	        	hardGame.trybJasny();
 					   	        	bokJasny();
 					   	        	radiobutton1.setFocusable(false);
-					   	        	hardframe.setFocusable(true);
-					   	        	hardframe.requestFocusInWindow(); 
+					   	        	hardGame.setFocusable(true);
+					   	        	hardGame.requestFocusInWindow(); 
 					   	        }
 				            });
 				  
 				    radiobutton2.addActionListener(new ActionListener() {			//listener do ciemnego
 				   	        	@Override
 					   	        public void actionPerformed(ActionEvent arg) {
-				   	        		hardframe.trybCiemny();
+				   	        		hardGame.trybCiemny();
 					   	        	bokCiemny();
 					   	        	radiobutton2.setFocusable(false);
-					   	        	hardframe.setFocusable(true);
-					   	        	hardframe.requestFocusInWindow();
+					   	        	hardGame.setFocusable(true);
+					   	        	hardGame.requestFocusInWindow();
 					   	        }
 				            });
 				  
@@ -126,24 +126,24 @@ public class Gamehard extends JFrame {
 					   	                }
 					   	            }
 								    button3.setFocusable(false);
-								    hardframe.setFocusable(true);	
-								    hardframe.requestFocusInWindow(); 
+								    hardGame.setFocusable(true);	
+								    hardGame.requestFocusInWindow(); 
 					   	        }
 				            });
 				  
 				    button1.addActionListener(new ActionListener() {				//listener do nowej gry
 				   	        @Override
 				   	        public void actionPerformed(ActionEvent arg) {
-				   	        	hardframe.newGame();
+				   	        	hardGame.newGame();
 				   	        	button1.setFocusable(false);
-				   	        	hardframe.setFocusable(true);
-				   	        	hardframe.requestFocusInWindow(); 
+				   	        	hardGame.setFocusable(true);
+				   	        	hardGame.requestFocusInWindow(); 
 							    
 					   	        if (radiobutton1.isSelected()) {
-					   	        	hardframe.trybJasny();
+					   	        	hardGame.trybJasny();
 					   	        }
 					   	        else {
-					   	        	hardframe.trybCiemny();
+					   	        	hardGame.trybCiemny();
 					   	        }			   	    
 				   	        }
 		            });
@@ -152,26 +152,26 @@ public class Gamehard extends JFrame {
 				   	        @Override
 				   	        public void actionPerformed(ActionEvent arg) {
 				   	            if (pauza==false) {
-				   	            	hardframe.stopGame();
+				   	            	hardGame.stopGame();
 								    pauza = true;
 								    button2.setText("Wznow gre");
 				   	            }
 				   	            else {
-				   	            	hardframe.startGame();	
+				   	            	hardGame.startGame();	
 								    pauza = false;
 								    button2.setText("Zatrzymaj gre");
 				   	            }
 			   	            	button2.setFocusable(false);
-			   	            	hardframe.setFocusable(true);
-			   	            	hardframe.requestFocusInWindow(); 
+			   	            	hardGame.setFocusable(true);
+			   	            	hardGame.requestFocusInWindow(); 
 				   	        };
 		            });
 			  }	
 		};			
 		threadPrawy.start();
 		bokJasny();
-		this.hardframe = new Hardframe(c, sclabel);
-		this.add(hardframe, BorderLayout.CENTER);
+		this.hardGame = new HardGame(c, sclabel);
+		this.add(hardGame, BorderLayout.CENTER);
 	}
 	
 	public void bokCiemny() {

@@ -34,7 +34,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-public class Easyframe extends JPanel implements ActionListener, KeyListener {
+public class EasyGame extends JPanel implements ActionListener, KeyListener {
 	private boolean start = false;
 	private boolean playCompleted = false;
 	private Timer timer;
@@ -45,7 +45,7 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 	AudioInputStream audioStream = null;	
 	private int posX = 300;
 	private int platv = 20;
-	private int ballX = r.nextInt(760)+5;
+	private int ballX = r.nextInt(600)+5;
 	private int ballY = 300;
 	private int ballvx = -2;
 	private int ballvy = 3;
@@ -56,14 +56,14 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 	private int c;
 	private JLabel my_scorelabel;
 	private Map mapa;
-
+	Color k1=Color.BLACK, k2;
 	Color niebieski = new Color(176, 224, 230);
 	private Color kolorPilki  = Color.BLUE;
 	private Color kolorPlatformy = Color.RED;
 	private Color kolorTla = Color.WHITE;
 	private Color kolorPanelPrawy = niebieski;
 
-	public Easyframe(int c, JLabel scorelabel) {
+	public EasyGame(int c, JLabel scorelabel) {
 		this.c = c;
 		my_scorelabel = scorelabel;
 		mapa = new Map(a,b,c);
@@ -78,6 +78,8 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		//tlo
 		g.setColor(kolorTla);
 		g.fillRect(1, 1, 800, 600);
+		g.setColor(k1);
+		g.drawString("Naciœnij Enter, aby rozpocz¹æ grê", 300, 30);
 		//mapka
 		mapa.draw((Graphics2D)g);
 		//kontury
@@ -118,6 +120,8 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			start = true;
+			k1=k2;
+			repaint();
 		}
 	}
 	
@@ -223,7 +227,7 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 						        		play("./images/b.wav");
 									}
 									
-									if(ballX+1<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
+									if(ballX<=brickRect.x||ballX+1>= brickRect.x+brickRect.width) {
 										ballvx = -ballvx;
 									}
 									else {
@@ -285,13 +289,13 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 	
 	public void startGame() {
 		 ballvx = -2;
-		 ballvy = 3;
+		 ballvy = -3;
 		 platv = 20;
 	}
 	
 	public void newGame() {
 		mapa = new Map(a,b,c);
-		ballX = r.nextInt(768);
+		ballX = r.nextInt(650)+5;
 		ballY = 300;
 		posX = 300;
 		score = 0;
@@ -299,6 +303,7 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		ballvx = -2;
 		ballvy = 3;
 		platv = 20;
+		start=false;
 		repaint();
 	}
 	
@@ -307,6 +312,8 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		kolorPlatformy = Color.gray;
 		kolorTla = Color.black;
 		mapa.trybCiemny();
+		k1=Color.white;
+		k2=Color.black;
 		repaint();
 	}
 	
@@ -315,6 +322,8 @@ public class Easyframe extends JPanel implements ActionListener, KeyListener {
 		kolorPlatformy = Color.RED;
 		kolorTla = Color.WHITE;
 		mapa.trybJasny();
+		k1=Color.black;
+		k2=Color.white;
 		repaint();
 	}
 }
